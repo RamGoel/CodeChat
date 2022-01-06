@@ -29,7 +29,7 @@
                         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="color: var(--bs-gray-200);">Members</a>
                             <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
                         </li>
-                    </ul><span class="navbar-text actions"> <a class="btn btn-light action-button" role="button" href="#" style="color: var(--bs-white);background: var(--bs-dark);">Log Out</a></span>
+                    </ul><span class="navbar-text actions"> <a class="btn btn-light action-button" role="button" href="/logout" onclick="alert('You will Log Out Now!')" style="color: var(--bs-white);background: var(--bs-dark);">Log Out</a></span>
                 </div>
             </div>
         </nav>
@@ -37,23 +37,48 @@
 
     <div class=" container row m-auto" style="padding: 20px;">
         <div class=" col-sm shadow-sm" style="background: white;padding: 10px;margin: 10px;box-shadow: 1px 1px 30px" >
-            <div class="container" style="height: 300px;background: #1e2833;border-radius: 6px;"></div>
+            <div class="container" style="height: 300px;background: #1e2833;border-radius: 6px;" >
+            <div id="message" style="color: white;display:none;padding:10px;background-color:black;border-radius: 10px;">
+                <div class="d-flex " style="margin: 0px;padding:0;width: 100%;justify-content: space-between;">
+                    <p id="senderName" style="font-size: 10px;">Ravi</p>
+                    <p id="messageTime" style="font-size: 10px;">20:00</p>
+                </div>
+                <p id="messageBody" style="font-size:15px;margin:0px"></p>
+            </div>
+            </div>
+      
         <div class="container d-flex flex-column justify-content-center" style="padding: 10px;">
             
-            <input type="text" placeholder="Type your message" style="padding: 10px;background:#1e2833;border: none;border-radius: 5px;color: white ">
-            <button class="btn btn-primary" type="button" style="background: var(--bs-gray-900);margin: 10px">Send</button>
+            <input type="text" placeholder="Type your message" style="padding: 10px;background:#1e2833;border: none;border-radius: 5px;color: white " id="messageInput">
+            <button class="btn btn-primary" type="button" style="background: var(--bs-gray-900);margin: 10px" onclick="sendMsg()">Send</button>
         </div>
 
         </div>
-        <div class="container d-flex flex-column col justify-content-center" style="background: white;padding: 10px;margin: 10px">
-            <textarea class="form-control-lg" style="background: #1e2833;color: var(--bs-white);border-width: 0px;" name="codeInput" rows="6">print("hello")</textarea>
-            <button class="btn btn-primary" type="button" style="background: var(--bs-gray-900);margin: 5px;">Compile</button>
-            <textarea class="form-control-lg" style="background: #1e2833;color: var(--bs-white);border-width: 0px;" name="codeInput" rows="6" placeholder="Output Comes Here"></textarea>
-        </div>
+        <form class="container d-flex flex-column col justify-content-center" action="/compile" method="POST" style="background: white;padding: 10px;margin: 10px">
+            <textarea class="form-control-lg" style="background: #1e2833;color: var(--bs-white);border-width: 0px;" name="codeInput" rows="6"  id="codeInput" ><%= code %></textarea>
+            <div class="d-flex">
+
+                <button class="btn btn-primary col"  style="background: var(--bs-gray-900);margin: 5px;" type="submit" onclick="document.getElementById('codeInputButton').innerHTML='Loading...' " id="codeInputButton">Compile</button>
+                <button class="btn btn-primary col"  style="background: var(--bs-gray-900);margin: 5px;" type="button" onclick="sendCode()" >Send</button>
+            </div>
+            <textarea class="form-control-lg" style="background: #1e2833;color: var(--bs-white);border-width: 0px;" name="codeOutput" rows="6" placeholder="Output Comes Here" readonly><%= output %></textarea>
+        </form>
     </div>
 
 
-    
+    <script>
+        function sendCode(){
+            var codeMsg=document.getElementById('codeInput').value;
+            document.getElementById('messageInput').value=codeMsg;
+        }
+
+        function sendMsg(){
+            document.getElementById('message').style.display="block";
+            var codeMsg=document.getElementById('codeInput').value;
+           
+            document.getElementById('messageBody').innerHTML=codeMsg;
+        }
+    </script>
     <script src="js/bootstrap.min.js"></script>
     <script src="bs-init.js"></script>
 </body>

@@ -18,9 +18,9 @@
         <form method="post" action="/loginPost" style="box-shadow: 10px 3px 14px 0px rgba(4,1,1,0.29);">
             <h2 class="visually-hidden">Login Form</h2>
             <div class="justify-content-between align-content-around illustration"><i class="icon ion-chatboxes flex-fill justify-content-end flex-nowrap"></i></div>
-            <div class="mb-3"><input class="form-control" type="email" name="teamName" placeholder="Team Name"></div>
-            <div class="mb-3"><input class="form-control" type="password" name="userName" placeholder="Display Name"></div>
-            <div class="mb-3"><button class="btn btn-primary d-block w-100" data-bss-hover-animate="swing" type="submit">Let's Go</button></div><a class="forgot" href="#">Have any questions or suggestions?</a>
+            <div class="mb-3"><input class="form-control" type="text" name="teamName" placeholder="Team Name" value="<%= teamName %>" required></div>
+            <div class="mb-3"><input class="form-control" type="text" name="userName" placeholder="Display Name" value="<%= userName %>" required></div>
+            <div class="mb-3"><button class="btn btn-primary d-block w-100" data-bss-hover-animate="swing" type="submit" value="">Let's Go</button></div><a class="forgot" href="#">Have any questions or suggestions?</a>
         </form>
     </section>
     <script src="js/bootstrap.min.js"></script>
