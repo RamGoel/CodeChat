@@ -17,6 +17,7 @@ const memberList = document.getElementById('memberList')
 const memberPara = document.getElementById('member')
 const messageTone = document.getElementById('messageTone')
 const codeInput = document.getElementById('codeInput')
+const codeInputBtn = document.getElementById('codeInputButton')
 const codeOutput = document.getElementById('codeOutput')
 
 
@@ -51,6 +52,7 @@ function generateMessage(data){
     message.firstElementChild.firstElementChild.innerHTML=data.sender;
     message.firstElementChild.lastElementChild.innerHTML=data.time;
     message.lastElementChild.innerHTML=data.message;
+    message.style.whiteSpace="pre";
     message.classList.add('darkBg')
 
     //Adding Message to CONTAINER
@@ -124,6 +126,11 @@ socket.on('memberListRender',(data)=>{
 })
 
 
+socket.on('codeCompiled',(data)=>{
+    codeInputBtn.innerHTML="COMPILE"
+    codeOutput.value=data
+})
+
 
 
 
@@ -132,13 +139,13 @@ socket.on('memberListRender',(data)=>{
 const date=new Date();
 
 //When User Clicks on Send to Send Message
-function sendMessage(){
+function sendMessage(element){
     //Only Send Message if it is not empty
-    if(messageInput.value!=""){
+    if(element.value!=""){
 
         //Emitting the Message to Server
         socket.emit('userMessage',{
-            message:messageInput.value,
+            message:element.value,
             roomName:roomName.innerText
         })
     }
@@ -151,13 +158,14 @@ function sendMessage(){
 
 
 //When User CLicks Compile Button 
-function compileCode(){
+function codeCompile(){
     
+    codeInputBtn.innerHTML="Loading..."
     //Emitting Code to Server
-    socket.emit('codeEvent',{
+    socket.emit('codeWritten',{
         code:codeInput.value,
-        language:python,
-        input:null,
+        language:"py",
+        input:" ",
     })
 
 }
