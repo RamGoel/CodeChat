@@ -57,5 +57,5 @@ Start the server
 ## Screenshots
 
 ![Login Screen](snaps/ss2.png)
-![Main Screen](snaps/ss2.png)
+![Main Screen](snaps/ss1.png)
 
