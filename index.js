@@ -1,99 +1,208 @@
-const http=require('http');
-const express=require('express');
-const path=require('path');
-const mongo=require('mongoose');
-const socketio=require('socket.io');
-const formidable=require('formidable');
-const app=express();
-const bodyParser=require('body-parser');
-const { NONAME } = require('dns');
-const axios=require('axios');
-const port=process.env.PORT||3000;
-
-
-app.set('view engine','ejs');
-app.use(express.static(__dirname+'views'));
-app.use(express.static(__dirname+'/assets/bootstrap'));
-app.use(express.static(__dirname+'/assets/css'));
-app.use(express.static(__dirname+'/assets/img'));
-app.use(express.static(__dirname+'/assets/js'));
-app.use(express.static(__dirname+'/assets/fonts'));
-app.use(bodyParser.json());
-app.use((req, res, next) => {
-    res.locals.userValue = null;
-    next();
-})
-app.use(bodyParser.urlencoded({extended:true}));
+//Importing Node Modules
+const bodyParser = require('body-parser');
+const express = require('express');
+const res = require('express/lib/response');
+const app = express();
+const server = require('http').createServer(app);
+const socketio = require('socket.io');
+const io = socketio(server);
+const path = require('path');
+const port = process.env.PORT || 3000;
 
 
 
+//Telling Server to Access these Folders
+app.use(express.static(__dirname + '/assets/js'))
+app.use(express.static(__dirname + '/views'))
+app.use(express.static(__dirname + '/assets/css'))
+app.use(express.static(__dirname + '/assets/images'))
+app.use(express.static(__dirname + '/assets/audio'))
 
-//GET Endpoints
-app.get('/', (req,res)=>{
-    res.render('index');
-})
+//Enabling Body Parser
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
+
+//setting View engine to Embedded JavaScript (Google for it if you want to learn More)
+app.set('view engine', 'ejs')
 
 
-app.get('/login',(req,res)=>{
-    res.render('login',{teamName:null,userName:null})
-})
+//Array for Users
+var userArray = []
 
 
-app.get('/logout',(req,res)=>{
-    res.redirect('/');
+//Serving Login Page
+app.get('/', (req, res) => {
+
+    res.render('index',{nameValue:null,validError:null,roomValue:null})
+
 })
 
-//POST Endpoints
+//Handling Login of User
+app.post('/login', (req, res) => {
+    var nameOfUser = req.body.userName;
+    var nameOfRoom = req.body.roomName;
 
-app.post("/loginPost",(req,res)=>{
+    if (nameOfUser.length > 2) {
 
-    console.log(req.body);
-    var userName=req.body.userName;
-    var teamName=req.body.teamName;
+        res.render('dash', {
+            code: "print('Hello')",
+            output: "Output Comes Here",
+            userName: nameOfUser ,
+            roomName:nameOfRoom
+        })
 
-    if(userName.toLowerCase()=="ram"){
-        if(teamName.toLowerCase()=="goeldevs"){
 
-            res.render('dash',{code:"print('Hello World')",output:null});
-        }
-    }else{
-        res.render('login',{userName:userName,teamName:teamName});
+
+    } else {
+        res.render('index', {
+            validError: "Min 3 letter Required",
+            nameValue:nameOfUser,
+            roomValue:nameOfRoom
+        })
     }
+
+
 })
 
 
 
-app.post('/compile', (req, res) => {
-  
-    var codeInput=req.body.codeInput;
-    var data = JSON.stringify({
-      "code": codeInput,
-      "language": "py",
-      "input": ""
-    });
-  
-    var config = {
-      method: 'POST',
-      url: 'https://codexweb.netlify.app/.netlify/functions/enforceCode',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: data
-    };
-  
-    axios(config)
-      .then(function (response) {
-        res.render('dash',{code:codeInput,output:response.data.output});
-        console.log(response.data.output);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  })
+//SocketIO Connections
+io.on("connection", socket => {
+
+    
+    //Client EMits Joined Event on Joining
+    socket.on('joined', data => {
+
+        
+
+        //Logging Join Message to Server 
+        console.log(data.username+" Connected in "+data.roomName)
 
 
-app.listen(port,(req,res)=>{
-    console.log(`App is listening on port ${port}`)
+        //Creating Object of User Details
+        var newUser = {
+            id: socket.id,
+            name: data.username,
+            roomName:data.roomName
+        };
+
+
+        //Adding User to Array
+        userArray.push(newUser)
+
+        //Joining Socket to Room
+        socket.join(data.roomName)
+        
+        console.log(userArray)
+
+        // //Getting Users of Joined User's Room
+        // var roomUsers=userArray.filter(item=>{
+        //     return item.roomName == data.roomName;
+        // })
+
+
+        // //Emitting Users List to All Group Members
+        // io.to(data.roomName).emit('memberListRender',roomUsers);
+
+        //Getting a Date
+        const date = new Date()
+
+        //Emitting User Joined Message to Other Group Members
+        socket.to(data.roomName).emit('userMessageRender', {
+            message: `${data.username} joined the chat`,
+            time: `${date.getHours()}:${date.getMinutes()}`,
+            sender: "Admin"
+        })
+
+        console.log("CheckPOinyt")
+
+        //Emitting Welcome Message to User
+        socket.emit('userMessageRender', {
+            message: "Welcome to chat",
+            time: `${date.getHours()}:${date.getMinutes()}`,
+            sender: "Admin"
+        })
+
+        //Above Code Executes when new User Joins.
+    })
+
+
+    //When User Clicks Send Button then Client Sends this Event
+    socket.on('userMessage', (data) => {
+
+        //Getting Time
+        const date = new Date()
+
+        //Identifying User From Array
+        var senderUser = userArray.find(item => {
+            return item.id == socket.id
+        })
+
+        //Sending Message to all Group Members
+        io.to(data.roomName).emit('userMessageRender', {
+            message: data.message,
+            sender: senderUser.name,
+            time: `${date.getHours()}:${date.getMinutes()}`
+        })
+
+        //Above Code Executes when user Send Message
+    })
+
+
+
+    //Emits when User Leaves Chat
+    socket.on('disconnect',()=>{
+
+        //Getting Time
+        const date = new Date()
+
+        
+        //Getting Details of Leaved User
+        var userLeave = userArray.find(item => {
+            return item.id == socket.id;
+        })
+        
+        //Logging Disconnect Message to Server
+        console.log(userLeave.name+ "disconnected")
+
+        //Sending User Leaved Message to All Users
+        socket.to(userLeave.roomName).emit('userMessageRender',{
+            sender:"Admin",
+            message:userLeave.name+` leaved the chat!`,
+            time:`${date.getHours()}:${date.getMinutes()}`
+        })
+
+         //Removing User from Array
+         userArray.pop(userLeave);
+
+         //Checking How many User Remains
+         console.log(userArray)
+
+        // //Getting Users of Joined User's Room
+        // var roomUsersDel=userArray.filter(item=>{
+        //     return item.roomName == data.roomName;
+        // })
+
+
+        // //Emitting Users List to All Group Members
+        // io.to(data.roomName).emit('memberListRender',roomUsersDel);
+
+
+       
+    })
+
+
+   
+
+
 })
 
 
+
+
+
+//Listening the Server on port 3000
+server.listen(port, () => {
+    console.log(`Running at port ${port}`)
+})

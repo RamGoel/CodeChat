@@ -2,85 +2,113 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Chat & Compile </title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-    <link rel="stylesheet" href="fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="fonts/ionicons.min.css">
-    <link rel="stylesheet" href="CodeChatHome.css">
-    <link rel="stylesheet" href="Header-Blue.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="Login-Form-Dark.css">
-    <link rel="stylesheet" href="Navigation-with-Button.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=userName%></title>
+
+    <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body>
-    <header class="header-blue" >
-        <nav class="navbar navbar-light navbar-expand-lg navigation-clean-button">
-            <div class="container">
-                <a class="navbar-brand" href="#">CodeChat</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon text-lowercase text-light" style="color: var(--bs-gray-200);filter: brightness(200%);"></span></button>
-                <div class="collapse navbar-collapse" id="navcol-1">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item"><a class="nav-link active" href="#" style="color: rgb(255,255,255);">Team Name</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#" style="color: var(--bs-gray-200);">User name</a></li>
-                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="color: var(--bs-gray-200);">Members</a>
-                            <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
-                        </li>
-                    </ul><span class="navbar-text actions"> <a class="btn btn-light action-button" role="button" href="/logout" onclick="alert('You will Log Out Now!')" style="color: var(--bs-white);background: var(--bs-dark);">Log Out</a></span>
+<body class="bodyDark" id="bodyMain">
+
+    <audio id="messageTone" style="display: none;">
+        <source src="tone.ogg" type="audio/ogg">
+        <source src="tone.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+
+    <div class="container my-aut">
+
+        <div id="mainBody" class="row p-1 darkBg rounded my-2">
+            <div class="sideBar rounded-top darkBg p-2 " id="sideBar">
+
+                <div class="d-flex flex-row align-items-center ">
+
+                    <button class="darkBg border-0 rounded mx-2 pointer " type="button" onclick="sidebarView()"><i
+                            class="fa fa-bars"></i></button>
+
+                    <p id="uname" class="m-0 p-0"><%=userName%></p>@
+                    <p id="rname" class="m-0 p-0"><%=roomName%></p>
+                </div>
+
+                <label id="toggleBtn" class="switch" onchange="dkMode()">
+                    <i class="fa fa-sun text-white fa-1x"></i>
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+
+            </div>
+
+            <div id="teamDetails" class="collapse  membersList darkBg shadow-lg p-2 mx-2 my-0  rounded my-1 ">
+                <p class=" text-center" id="member">Members</p>
+                <div id="memberList" class="membersList">
+
+                </div>
+                
+
+
+
+            </div>
+
+            <div class="my-1 rounded form shadow-lg darkBg p-4 d-flex flex-column col-md mx-2"
+                style="width:500px;height:560px" id="userLoginForm">
+                <h2 class=" text-center  ">Start Chatting!</h2>
+                <div id="chatBox" class="conatiner-fluid bg-success bdRad m-1 p-2"
+                    style="height: 80%;overflow-y: scroll;">
+                    <div id="messageDiv" class=" bdRad d-flex flex-column justify-content-between rounded p-1 m-1" style="width: fit-content;">
+                        <div id="msgInside" class="d-flex flex-row align-items-center justify-content-between">
+
+                            <p id="messageSender" class="text-primary mx-1"
+                                style="font-size: 10px; text-align: light;margin:0"></p>
+                                <p id="messageTime" class="" style="font-size: 10px; text-align: right;margin:0"></p>
+                        </div>
+                        <p id="messageBody" class="" style="font-size: 14px; text-align: left;margin:0">
+                        </p>
+                       
+                    </div>
+                </div>
+                <div id="messageForm">
+                    <input type="text" placeholder="Enter your Message!" name="chatMesage"
+                        class=" form-control m-1 bg-light br3 p-2 border-0 border-black" id="messageInput" required>
+                    <button class="form-control btn-primary m-1" id="messageBtn" type="button" onclick="sendMessage()">Send</button>
                 </div>
             </div>
-        </nav>
-    </header>
 
-    <div class=" container row m-auto" style="padding: 20px;">
-        <div class=" col-sm shadow-sm" style="background: white;padding: 10px;margin: 10px;box-shadow: 1px 1px 30px" >
-            <div class="container" style="height: 300px;background: #1e2833;border-radius: 6px;" >
-            <div id="message" style="color: white;display:none;padding:10px;background-color:black;border-radius: 10px;">
-                <div class="d-flex " style="margin: 0px;padding:0;width: 100%;justify-content: space-between;">
-                    <p id="senderName" style="font-size: 10px;">Ravi</p>
-                    <p id="messageTime" style="font-size: 10px;">20:00</p>
-                </div>
-                <p id="messageBody" style="font-size:15px;margin:0px"></p>
-            </div>
-            </div>
-      
-        <div class="container d-flex flex-column justify-content-center" style="padding: 10px;">
-            
-            <input type="text" placeholder="Type your message" style="padding: 10px;background:#1e2833;border: none;border-radius: 5px;color: white " id="messageInput">
-            <button class="btn btn-primary" type="button" style="background: var(--bs-gray-900);margin: 10px" onclick="sendMsg()">Send</button>
-        </div>
+            <form action="/compile" method="POST"
+                class=" shadow-lg m-auto rounded form darkBg p-4 d-flex flex-column col-md mx-2" style="width:500px"
+                id="userLoginForm">
+                <h2 class=" text-center ">Let's Code!</h2>
+                <textarea type="text" style="height: 200px;" placeholder="Code"
+                    class="form-control border-2 border-light  m-1 darkBg  p-2 "  value="<%=code %>" required name="codeInput" rows="6"
+                    id="codeInput"></textarea>
+                <button type="submit" class="form-control btn-primary m-1"
+                    onclick="codeCompile()"
+                    id="codeInputButton" >COMPILE</button>
+                <textarea type="text" style="height: 200px;" placeholder="Output"
+                    class="form-control m-1 bg-light br3 p-2 border-0 border-black" required readonly value="<%= output %>" name="codeOutput"
+                    rows="6" placeholder="Output Comes Here" readonly></textarea>
+            </form>
 
         </div>
-        <form class="container d-flex flex-column col justify-content-center" action="/compile" method="POST" style="background: white;padding: 10px;margin: 10px">
-            <textarea class="form-control-lg" style="background: #1e2833;color: var(--bs-white);border-width: 0px;" name="codeInput" rows="6"  id="codeInput" ><%= code %></textarea>
-            <div class="d-flex">
-
-                <button class="btn btn-primary col"  style="background: var(--bs-gray-900);margin: 5px;" type="submit" onclick="document.getElementById('codeInputButton').innerHTML='Loading...' " id="codeInputButton">Compile</button>
-                <button class="btn btn-primary col"  style="background: var(--bs-gray-900);margin: 5px;" type="button" onclick="sendCode()" >Send</button>
-            </div>
-            <textarea class="form-control-lg" style="background: #1e2833;color: var(--bs-white);border-width: 0px;" name="codeOutput" rows="6" placeholder="Output Comes Here" readonly><%= output %></textarea>
-        </form>
     </div>
 
 
-    <script>
-        function sendCode(){
-            var codeMsg=document.getElementById('codeInput').value;
-            document.getElementById('messageInput').value=codeMsg;
-        }
 
-        function sendMsg(){
-            document.getElementById('message').style.display="block";
-            var codeMsg=document.getElementById('codeInput').value;
-           
-            document.getElementById('messageBody').innerHTML=codeMsg;
-        }
-    </script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="bs-init.js"></script>
+
+    <script src="handler.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="client.js"></script>
+   
 </body>
 
 </html>
