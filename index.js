@@ -6,6 +6,7 @@ const app = express();
 const server = require('http').createServer(app);
 const socketio = require('socket.io');
 const io = socketio(server);
+const axios=require('axios')
 const path = require('path');
 const port = process.env.PORT || 3000;
 
@@ -150,6 +151,33 @@ io.on("connection", socket => {
     })
 
 
+    socket.on('codeWritten',(data)=>{
+
+        var dataSend = JSON.stringify({
+            "code": data.code,
+            "language": data.language,
+            "input": data.input
+          });
+      
+        var config = {
+          method: 'POST',
+          url: 'https://codexweb.netlify.app/.netlify/functions/enforceCode',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: dataSend
+        };
+      
+        axios(config)
+          .then(function (response) {
+            socket.emit("codeCompiled",response.data.output);
+            console.log(response.data.output);
+          })
+          .catch(function (error) {
+            console.log(error)
+            res.redirect('/loginPost')
+          });
+    })
 
     //Emits when User Leaves Chat
     socket.on('disconnect',()=>{
