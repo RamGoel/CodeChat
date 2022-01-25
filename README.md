@@ -4,6 +4,9 @@
 A Web Application that allows the users to Chat and Code at one place.
 
 
+
+
+<h2 style="display:none"> A Feature to share codde among Group </h2>
 ## Authors
 
 - [@RamGoel](https://www.github.com/RamGoel)
@@ -58,6 +61,7 @@ Start the server
 - No Page Refresh
 - User JOIN/LEAVE Notifications
 - Attractive UI
+- Share Code between your Group
 
 
 
