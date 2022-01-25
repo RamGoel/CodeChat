@@ -9,6 +9,13 @@ A Web Application that allows the users to Chat and Code at one place.
 - [@RamGoel](https://www.github.com/RamGoel)
 
 
+
+## Tech Stack
+
+**Client:** EJS, HTML, Bootstrap, CSS
+
+**Server:** Node, Express, SocketIO, Axios, MongoDB
+
 ## Run Locally
 
 Clone the project
