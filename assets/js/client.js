@@ -17,34 +17,26 @@ const memberList = document.getElementById('memberList')
 const memberPara = document.getElementById('member')
 const messageTone = document.getElementById('messageTone')
 const codeInput = document.getElementById('codeInput')
-const codeInputBtn = document.getElementById('codeInputButton')
+const codeBtn = document.getElementById('codeBtn')
 const codeOutput = document.getElementById('codeOutput')
 
 
 
 
-//Function to Scrolll
-
-function scrollChat(heightOfMessage){
-    messageDiv.scrollTop=messageDiv.offsetHeight+heightOfMessage
-}
-
-//Function to beep
-function playSound() {   
-    
-    messageTone.play()  
-} 
 
 
 
 
 
 
+let messageArray=[]
 
 //Function to Add a new Message
-function generateMessage(data){
+generateMessage=(data)=>{
   
-    //Creating a New Message
+    if(data!=null){
+            console.log(data)
+             //Creating a New Message
     var node=messageDiv.lastElementChild;
     var message=node.cloneNode(true)
 
@@ -52,6 +44,12 @@ function generateMessage(data){
     message.firstElementChild.firstElementChild.innerHTML=data.sender;
     message.firstElementChild.lastElementChild.innerHTML=data.time;
     message.lastElementChild.innerHTML=data.message;
+
+
+    messageArray.push(JSON.stringify({sender:data.sender,time:data.time,message:data.message}))
+
+
+    // message.classList.add(data.pos);
     message.style.whiteSpace="pre";
     message.classList.add('darkBg')
 
@@ -63,14 +61,16 @@ function generateMessage(data){
 
     //Returning Message Height
     return message.offsetHeight
+    }else{
+        console.log("Null Data")
+    }
+   
 
 }
 
 
-
-
 //Function to Update Member List
-function membersShow(list){
+membersShow=(list)=>{
 
 
  
@@ -112,10 +112,6 @@ socket.on('userMessageRender',data=>{
 })
 
 
-
-
-
-
 //Updating the Members List
 socket.on('memberListRender',(data)=>{
 
@@ -125,11 +121,20 @@ socket.on('memberListRender',(data)=>{
     membersShow(data) //Defined Above in this File
 })
 
-
+//When Code Output Comes
 socket.on('codeCompiled',(data)=>{
-    codeInputBtn.innerHTML="COMPILE"
+    codeBtn.classList.remove('fa-spinner')
+    codeBtn.classList.remove('fa-spin')
+    codeBtn.classList.add('fa-play')
     codeOutput.value=data
 })
+
+//When Message Emotion Checks
+socket.on('emotionChecked',(data)=>{
+    console.log(data.result.type)
+})
+
+
 
 
 
@@ -139,10 +144,12 @@ socket.on('codeCompiled',(data)=>{
 const date=new Date();
 
 //When User Clicks on Send to Send Message
-function sendMessage(element){
+sendMessage=(element)=>{
+    const time=new Date()
     //Only Send Message if it is not empty
-    if(element.value!=""){
-
+    if(element.value!="" ){
+        
+        // generateMessage({message:element.value,sender:"You",time:`${time.getHours()}:${time.getMinutes()}`,pos:"right"})
         //Emitting the Message to Server
         socket.emit('userMessage',{
             message:element.value,
@@ -155,18 +162,33 @@ function sendMessage(element){
     messageInput.focus()
 }
 
+messageInput.addEventListener('keyup',({key})=>{
+    if(key=="Enter"){
+        messageBtn.click()
+    }
+})
+
 
 
 //When User CLicks Compile Button 
-function codeCompile(){
+codeCompile=()=>{
     
-    codeInputBtn.innerHTML="Loading..."
-    //Emitting Code to Server
-    socket.emit('codeWritten',{
-        code:codeInput.value,
-        language:"py",
-        input:" ",
-    })
+
+    if(langText==''){
+        codeOutput.innerHTML='Select Language First'
+    }else{
+
+        codeBtn.classList.remove('fa-play')
+        codeBtn.classList.add('fa-spinner')
+        codeBtn.classList.add('fa-spin')
+
+        //Emitting Code to Server
+        socket.emit('codeWritten',{
+            code:codeInput.value,
+            language:langText,
+            input:" ",
+        })
+    }
 
 }
 

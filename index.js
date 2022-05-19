@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 
-//setting View engine to Embedded JavaScript (Google for it if you want to learn More)
+//setting View engine to Embedded JavaScript (EJS) (Google for it if you want to learn More)
 app.set('view engine', 'ejs')
 
 
@@ -39,6 +39,12 @@ app.get('/', (req, res) => {
 
 })
 
+
+app.get('/:roomName',(req,res)=>{
+    var room=String(req.params.roomName)
+    res.render('index',{nameValue:null,validError:null,roomValue:room})
+})
+
 //Handling Login of User
 app.post('/login', (req, res) => {
     var nameOfUser = req.body.userName;
@@ -50,7 +56,8 @@ app.post('/login', (req, res) => {
             code: "print('Hello')",
             output: "Output Comes Here",
             userName: nameOfUser ,
-            roomName:nameOfRoom
+            roomName:nameOfRoom,
+            inviteLink:`/${nameOfRoom}`
         })
 
 
@@ -113,7 +120,8 @@ io.on("connection", socket => {
         socket.to(data.roomName).emit('userMessageRender', {
             message: `${data.username} joined the chat`,
             time: `${date.getHours()}:${date.getMinutes()}`,
-            sender: "Admin"
+            sender: "Admin",
+            pos:"left"
         })
 
         console.log("CheckPOinyt")
@@ -122,7 +130,8 @@ io.on("connection", socket => {
         socket.emit('userMessageRender', {
             message: "Welcome to chat",
             time: `${date.getHours()}:${date.getMinutes()}`,
-            sender: "Admin"
+            sender: "Admin",
+            pos:"left"
         })
 
         //Above Code Executes when new User Joins.
@@ -140,11 +149,15 @@ io.on("connection", socket => {
             return item.id == socket.id
         })
 
+        var collection=userArray.filter(item=>{
+            return item.id!=socket
+        })
         //Sending Message to all Group Members
         io.to(data.roomName).emit('userMessageRender', {
             message: data.message,
             sender: senderUser.name,
-            time: `${date.getHours()}:${date.getMinutes()}`
+            time: `${date.getHours()}:${date.getMinutes()}`,
+            pos:"left"
         })
 
         //Above Code Executes when user Send Message
@@ -177,6 +190,29 @@ io.on("connection", socket => {
             console.log(error)
             res.redirect('/loginPost')
           });
+    })
+    socket.on('checkEmotion',async(data)=>{
+        const axios = require("axios");
+
+const encodedParams = new URLSearchParams();
+encodedParams.append("text", data.text);
+
+const options = {
+  method: 'POST',
+  url: 'https://twinword-sentiment-analysis.p.rapidapi.com/analyze/',
+  headers: {
+    'content-type': 'application/x-www-form-urlencoded',
+    'X-RapidAPI-Host': 'twinword-sentiment-analysis.p.rapidapi.com',
+    'X-RapidAPI-Key': '710d6e061dmsh98b84ba69026524p1b8a91jsnc9f00a492a48'
+  },
+  data: encodedParams
+};
+
+axios.request(options).then(function (response) {
+	console.log(response.data);
+}).catch(function (error) {
+	console.error(error);
+});
     })
 
     //Emits when User Leaves Chat
