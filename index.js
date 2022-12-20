@@ -9,7 +9,7 @@ const io = socketio(server);
 const axios=require('axios')
 const path = require('path');
 const port = process.env.PORT || 3000;
-
+const request=require('request')
 
 
 //Telling Server to Access these Folders
@@ -166,30 +166,42 @@ io.on("connection", socket => {
 
     socket.on('codeWritten',(data)=>{
 
-        var dataSend = JSON.stringify({
-            "code": data.code,
-            "language": data.language,
-            "input": data.input
-          });
+        var dataSend = {
+            script : data.code,
+            language: data.language,
+            versionIndex:0,
+            clientId: "ed4e43f3d62e39ecd556a8e2c48d470f",
+            clientSecret:"78cb7b9e32c1ae4e09a1e0bbbef278ad374623e7d8866d48279a48ac42e92c14"
+          };
       
-        var config = {
-          method: 'POST',
-          url: 'https://codexweb.netlify.app/.netlify/functions/enforceCode',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: dataSend
-        };
-      
-        axios(config)
-          .then(function (response) {
-            socket.emit("codeCompiled",response.data.output);
-            console.log(response.data.output);
-          })
-          .catch(function (error) {
-            console.log(error)
-            res.redirect('/loginPost')
-          });
+          console.log(dataSend)
+        // var config = {
+        //   method: 'POST',
+        //   url: 'https://api.jdoodle.com/v1/execute',
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   },
+        //   json: dataSend
+        // };
+        request({
+            url: 'https://api.jdoodle.com/v1/execute',
+            method: "POST",
+            json: dataSend
+        },
+
+        function (error, response, body) {
+            console.log('error:', error);
+            socket.emit("codeCompiled",response.body.output);
+        console.log('body:', body);
+        })
+        // axios(config)
+        //   .then(function (response) {
+        //     console.log(response.data.output);
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error)
+        //     res.redirect('/loginPost')
+        //   });
     })
     socket.on('checkEmotion',async(data)=>{
         const axios = require("axios");
