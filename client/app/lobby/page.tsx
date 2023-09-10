@@ -2,12 +2,15 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { joinRoom } from './lobby.actions'
+import { useRouter } from 'next/navigation'
+import { setDetails } from '@/redux/slices/authSlice'
 
 export interface lobbyDetailsProps{
   userName: string,
   roomName:string
 }
 const Lobby = () => {
+  const router=useRouter()
   const [data, setData] = useState<lobbyDetailsProps>({
     userName: "",
     roomName: ""
@@ -21,7 +24,10 @@ const Lobby = () => {
   const handleSubmit = useCallback((e:any) => {
     e.preventDefault()
     console.log(data)
-    dispatch(joinRoom(data))
+    dispatch(setDetails(data))
+    dispatch(joinRoom(data, () => {
+      router.push('/playground')
+    }))
   }, [data])
   return (
     <div className='h-screen w-screen bg-black text-white flex items-center justify-center'>

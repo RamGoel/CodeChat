@@ -52,10 +52,6 @@ app.post('/login', (req, res) => {
 
 
         res.json({
-            code: "print('Hello')",
-            output: "Output Comes Here",
-            userName: nameOfUser ,
-            roomName:nameOfRoom,
             inviteLink:`/${nameOfRoom}`
         })
 
