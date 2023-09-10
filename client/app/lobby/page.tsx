@@ -1,5 +1,7 @@
 "use client"
 import React, { useCallback, useMemo, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { joinRoom } from './lobby.actions'
 
 export interface lobbyDetailsProps{
   userName: string,
@@ -10,6 +12,7 @@ const Lobby = () => {
     userName: "",
     roomName: ""
   })
+  const dispatch=useDispatch()
 
   const handleChange = (key: string, value: string) => {
     setData({ ...data, [key]: value })
@@ -18,6 +21,7 @@ const Lobby = () => {
   const handleSubmit = useCallback((e:any) => {
     e.preventDefault()
     console.log(data)
+    dispatch(joinRoom(data))
   }, [data])
   return (
     <div className='h-screen w-screen bg-black text-white flex items-center justify-center'>

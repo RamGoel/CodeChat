@@ -1,3 +1,4 @@
+"use client";
 import { GlobalState } from '@/redux/store';
 import React from 'react'
 import { useSelector } from 'react-redux';

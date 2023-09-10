@@ -9,7 +9,9 @@ const io = socketio(server);
 const axios=require('axios')
 const path = require('path');
 const port = process.env.PORT || 8000;
-const request=require('request')
+const request = require('request')
+const cors = require('cors')
+app.use(cors())
 
 
 //Telling Server to Access these Folders
@@ -20,9 +22,7 @@ app.use(express.static(__dirname + '/assets/images'))
 app.use(express.static(__dirname + '/assets/audio'))
 
 //Enabling Body Parser
-app.use(bodyParser.urlencoded({
-    extended: true
-}))
+app.use(bodyParser())
 
 //setting View engine to Embedded JavaScript (EJS) (Google for it if you want to learn More)
 app.set('view engine', 'ejs')
@@ -47,12 +47,11 @@ app.get('/:roomName',(req,res)=>{
 
 //Handling Login of User
 app.post('/login', (req, res) => {
-    var nameOfUser = req.body.userName;
-    var nameOfRoom = req.body.roomName;
+    const nameOfUser = req.body.userName;
+    const nameOfRoom = req.body.roomName;
 
-    if (nameOfUser.length > 2) {
 
-        res.render('dash', {
+        res.json({
             code: "print('Hello')",
             output: "Output Comes Here",
             userName: nameOfUser ,
@@ -60,15 +59,6 @@ app.post('/login', (req, res) => {
             inviteLink:`/${nameOfRoom}`
         })
 
-
-
-    } else {
-        res.render('index', {
-            validError: "Min 3 letter Required",
-            nameValue:nameOfUser,
-            roomValue:nameOfRoom
-        })
-    }
 
 
 })

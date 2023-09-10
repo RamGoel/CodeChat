@@ -6,7 +6,7 @@ export const joinRoom = (data: lobbyDetailsProps) => {
         API.post('/login', data).then((res: object) => {
             console.log("Response is ", res)
         }).catch((err) => {
-            console.log("Error Occured")
+            console.log("Error Occured", err)
         }).finally(() => {
 
         })

@@ -2,7 +2,7 @@ import Loader from '@/components/loader/loader.component'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { ReduxProvider } from '@/redux/Provider'
+import Providers from '@/redux/Provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -18,12 +18,10 @@ export default function RootLayout({
   return (
       <html lang="en">
       <body className={inter.className}>
-        <ReduxProvider>
-          <>
+        <Providers>
         <Loader />
         {children}
-          </>
-        </ReduxProvider>
+        </Providers>
       </body>
       </html>
  
