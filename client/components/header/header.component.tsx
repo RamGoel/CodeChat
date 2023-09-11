@@ -2,7 +2,7 @@ import { GlobalState } from '@/redux/store'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Add, HambergerMenu, Logout, LogoutCurve } from 'iconsax-react'
-const Header = ({switchSidebar}) => {
+const Header = ({switchSidebar}:{switchSidebar:Function}) => {
     const { userName, roomName } = useSelector((state: GlobalState) => state.auth)
     return (
         <div className='bg-black py-3 text-white px-3 border-b-violet-600 flex flex-row items-center justify-between'>

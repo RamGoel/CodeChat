@@ -1,9 +1,9 @@
 "use client"
-import React, { useCallback, useMemo, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useCallback, useState } from 'react'
 import { joinRoom } from './lobby.actions'
 import { useRouter } from 'next/navigation'
 import { setDetails } from '@/redux/slices/authSlice'
+import { useAppDispatch } from '@/services/hooks'
 
 export interface lobbyDetailsProps{
   userName: string,
@@ -15,7 +15,7 @@ const Lobby = () => {
     userName: "",
     roomName: ""
   })
-  const dispatch=useDispatch()
+  const dispatch=useAppDispatch()
 
   const handleChange = (key: string, value: string) => {
     setData({ ...data, [key]: value })
@@ -41,7 +41,7 @@ const Lobby = () => {
             className='font-sans text-md block my-2 w-full'>Username : </label>
           <input
             onChange={(e) => handleChange("userName", e.target.value)}
-            value={data.username}
+            value={data.userName}
             id='name'
             type='text'
             className="p-2 rounded-md mb-3 w-full text-black"
@@ -55,7 +55,7 @@ const Lobby = () => {
           </label>
           <input
             onChange={(e) => handleChange("roomName", e.target.value)}
-            value={data.room}
+            value={data.roomName}
             id='room'
             type='text'
             className="p-2 rounded-md mb-3 w-full text-black"
