@@ -13,7 +13,7 @@ const Playground = () => {
     return (
       <div className='h-screen bg-black'>
             <Header switchSidebar={()=>setSidebar(old=>!old)} />
-      <div className='flex flex-row w-11/12 mx-auto bg-black'>
+      <div className='flex sm:flex-col md:flex-row w-11/12 mx-auto bg-black'>
           <div style={{
             position: 'absolute',
             top: 60,
@@ -23,10 +23,10 @@ const Playground = () => {
           }} className={`w-1/5`}>
             <Sidebar />
           </div>
-          <div className='w-1/2 bg-slate-500'>
+          <div className='md:w-1/3 sm:w-full '>
           <Chatbox />
           </div>
-          <div className='w-1/2'>
+          <div className='md:w-3/4 sm:w-full'>
           <Editor />
           </div>
       </div>

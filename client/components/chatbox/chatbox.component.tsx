@@ -8,9 +8,9 @@ import Form from './form.component'
 
 const Chatbox = () => {
   return (
-      <div className='p-2 bg-black'>
+      <div className='p-2 bg-white rounded-xl'>
           <div>
-              <div className=' w-full bg-white rounded-xl'>
+              <div className=' w-full '>
               <Header />
           <ChatSection />
           <Form />

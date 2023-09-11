@@ -7,9 +7,11 @@ const Main = () => {
   return (
       <div className='rounded-lg bg-white'>
       <Header />
+      <div className='flex flex-row'>
+
       <Editor />
-      <br />
       <Output />
+      </div>
     </div>
   )
 }

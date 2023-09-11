@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 const Editor = () => {
     const [code, setCode] = useState('print("Hello")')
     return (
-        <div className='flex items-center justify-center'>
+        <div className='flex w-full items-center justify-center'>
             <textarea
                 contentEditable={true}
                 onChange={(e) => setCode(e.target.value)}
