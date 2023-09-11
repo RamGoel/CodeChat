@@ -4,6 +4,15 @@ import { GlobalState } from '@/redux/store';
 import { EmojiHappy, Send } from 'iconsax-react'
 import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+
+export type messageProps={
+    user: {
+        name: string,
+        id:number
+    },
+    message: string,
+    timestamp:string
+}
 const Form = () => {
     const [message, setmessage] = useState('')
     const messages = useSelector((state: GlobalState) => state.chat.messages)
@@ -13,15 +22,15 @@ const Form = () => {
             return;
         }
         const dt = new Date()
-        dispatch(setMessages([...messages || [], {
+        const newMessage: messageProps = {
             user: {
                 name: "Shivam Gupta",
                 id: 201
             },
             message: message,
             timestamp: dt.toTimeString()
-        }]))
-        console.log("hello")
+        }
+        dispatch(setMessages([...messages || [], newMessage]))
         console.log(messages)
         setmessage('')
     }

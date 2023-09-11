@@ -1,7 +1,8 @@
+import { messageProps } from '@/components/chatbox/form.component';
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface chatSliceProps {
-    messages: Array<Object>,
+    messages: Array<messageProps>,
     activeChat: Object
 }
 
