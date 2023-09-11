@@ -7,8 +7,8 @@ export interface chatSliceProps {
 }
 
 const initialState: chatSliceProps = {
-    messages: null,
-    activeChat: null
+    messages: [],
+    activeChat: {}
 }
 const chatSlice = createSlice({
     name: "chat",

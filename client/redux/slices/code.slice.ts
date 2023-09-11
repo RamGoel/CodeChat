@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface codeSliceProps {
     language: string | null
-    code: string | null;
-    output: string | null;
+    code: string;
+    output: string;
 }
 
 const initialState: codeSliceProps = {
