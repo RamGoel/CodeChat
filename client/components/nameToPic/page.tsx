@@ -1,11 +1,12 @@
 import { Colors } from '@/utils/colors'
 import React from 'react'
 
-const NameToPic = ({ name }: { name: string }) => {
+const NameToPic = ({ name, onClick}: { name: string, onClick:Function }) => {
     const splittedName=name.split(' ')
   return (
       <div
-          className='rounded-full shadow-md flex flex-row items-center justify-center ml-2'
+          onClick={()=>onClick()}
+          className='rounded-full shadow-md flex flex-row items-center justify-center ml-2 cursor-pointer'
           style={{
               width: '40px',
               height: '40px',
