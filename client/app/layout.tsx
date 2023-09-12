@@ -1,9 +1,14 @@
+"use client"
 import Loader from '@/components/loader/loader.component'
 import './globals.css'
 import type { Metadata } from 'next'
 import Providers from '@/redux/Provider'
 import localFont from 'next/font/local'
 import { useEffect } from 'react'
+import { CacheHandlers } from '@/services/cache'
+import { CommonStrings } from '@/utils/strings'
+import { SessionProvider } from 'next-auth/react'
+import { Session } from 'next-auth'
 const gilroy = localFont({
   src: [
     {
@@ -40,21 +45,31 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  pageProps
 }: {
-  children: React.ReactNode
-  }) {
+  children: React.ReactNode,
+    pageProps: {
+    session:Session
+  }
+}) {
   useEffect(() => {
-    
-  },[])
+    const token = CacheHandlers._retrieve(CommonStrings.TOKEN_KEY)
+    if (token !== null) {
+
+    }
+  }, [])
   return (
-      <html lang="en">
+    <html lang="en">
       <body className={`${gilroy.className} bg-black`}>
-        <Providers>
-        <Loader />
-        {children}
-        </Providers>
+          <Providers>
+            <Loader />
+        <SessionProvider {...pageProps}>
+            {children}
+        </SessionProvider>
+          </Providers>
+
       </body>
-      </html>
- 
+    </html>
+
   )
 }
