@@ -1,3 +1,4 @@
+"use client";
 import Loader from '@/components/loader/loader.component'
 import './globals.css'
 import type { Metadata } from 'next'
@@ -5,6 +6,7 @@ import Providers from '@/redux/Provider'
 import localFont from 'next/font/local'
 import { SessionProvider } from 'next-auth/react'
 import { Session } from 'next-auth'
+import Head from 'next/head';
 const gilroy = localFont({
   src: [
     {
@@ -34,10 +36,7 @@ const gilroy = localFont({
     },
   ],
 })
-export const metadata: Metadata = {
-  title: 'CodeChat',
-  description: 'A revloutionized code editor',
-}
+
 
 export default function RootLayout({
   children,
@@ -51,6 +50,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${gilroy.className} bg-black`}>
+        <Head>
+          <title>CoChat | Code & Collab</title>
+        </Head>
           <Providers>
             <Loader />
         <SessionProvider {...pageProps}>
