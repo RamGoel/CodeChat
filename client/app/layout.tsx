@@ -1,4 +1,3 @@
-"use client"
 import Loader from '@/components/loader/loader.component'
 import './globals.css'
 import type { Metadata } from 'next'

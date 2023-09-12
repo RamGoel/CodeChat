@@ -28,7 +28,7 @@ const Lobby = () => {
     dispatch(joinRoom(data, () => {
       router.push('/playground')
     }))
-  }, [data])
+  }, [data, dispatch, router])
   return (
     <div className='h-screen w-screen bg-black text-white flex items-center justify-center'>
       <div className='bg-gray-900 p-10 rounded-lg'>
