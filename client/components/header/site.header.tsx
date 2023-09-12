@@ -12,14 +12,14 @@ const SiteHeader = () => {
     const { data: session } = useSession()
     return (
         <div className='p-4 bg-black text-white flex flex-row items-center justify-between'>
-            <div className='flex flex-row items-baseline w-2/5 justify-start'>
+            <div className='md:flex md:items-baseline w-full md:w-2/5 md:justify-start'>
                 <h3 style={{
                     fontWeight: 700,
                     fontSize: 30
-                }}>cochat<span style={{ color: Colors.primary }}>.</span></h3>
+                }} className='sm:text-small'>cochat<span style={{ color: Colors.primary }}>.</span></h3>
                 <p className='ml-2'>/built by @RamGoel</p>
             </div>
-            <div className='flex flex-row items-baseline w-1/5 justify-start'>
+            <div className='flex flex-row items-baseline  w-full md:w-1/5 justify-end'>
                 {(session && session.user) ? <div className='flex flex-row items-center justify-between'>
                     <button onClick={()=>signOut()} className='bg-white rounded-lg px-4 font-medium text-black py-2'>Log out</button>
                     {!!session.user.image
