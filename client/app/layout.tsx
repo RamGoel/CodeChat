@@ -3,6 +3,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import Providers from '@/redux/Provider'
 import localFont from 'next/font/local'
+import { useEffect } from 'react'
 const gilroy = localFont({
   src: [
     {
@@ -41,7 +42,10 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
-}) {
+  }) {
+  useEffect(() => {
+    
+  },[])
   return (
       <html lang="en">
       <body className={`${gilroy.className} bg-black`}>
