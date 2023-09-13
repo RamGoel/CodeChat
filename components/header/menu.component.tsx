@@ -1,6 +1,6 @@
-import { ElementPlus, Profile, Setting2 } from 'iconsax-react'
+import { ElementPlus, Logout, Profile, Setting2 } from 'iconsax-react'
 import React from 'react'
-
+import { signOut } from 'next-auth/react'
 const Menu = () => {
   return (
       <div className='bg-zinc-900 rounded-lg p-2 absolute top-20' style={{width:150, transition:'.5s'}} >
@@ -15,6 +15,10 @@ const Menu = () => {
           <div className='flex items-center justify-start rounded-lg hover:bg-zinc-800 cursor-pointer p-2'>
               <Setting2 />
               <p className='ml-2'>Settings</p>
+         </div>
+          <div onClick={()=>signOut()} className='flex items-center justify-start rounded-lg hover:bg-zinc-800 cursor-pointer p-2'>
+              <Logout />
+              <p className='ml-2'>Log Out</p>
          </div>
     </div>
   )

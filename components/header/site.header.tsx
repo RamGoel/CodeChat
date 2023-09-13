@@ -1,15 +1,17 @@
 "use client";
 import { Colors } from '@/utils/colors'
-import { Google } from 'iconsax-react'
+import { ArrowRight2, Google } from 'iconsax-react'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { signIn, useSession, signOut } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import NameToPic from '../nameToPic/page';
 import Menu from './menu.component';
+import { useRouter } from 'next/navigation';
 
 const SiteHeader = () => {
     const [isPopupShow, setPopupShow]=useState(false)
     const { data: session } = useSession()
+    const router=useRouter()
     return (
         <div className='p-4 bg-black text-white flex flex-row items-center justify-between'>
             <div className='md:flex md:items-baseline w-full md:w-2/5 md:justify-start'>
@@ -21,7 +23,7 @@ const SiteHeader = () => {
             </div>
             <div className='flex flex-row items-baseline  w-full md:w-1/5 justify-end'>
                 {(session && session.user) ? <div className='flex flex-row items-center justify-between'>
-                    <button onClick={()=>signOut()} className='bg-white rounded-lg px-4 font-medium text-black py-2'>Log out</button>
+                    <button onClick={()=>router.push('/dashboard')} className='text-white border-red-500 flex items-center justify-start rounded-lg px-4 font-medium text-black py-2'>Go to dashboard <ArrowRight2 size={20} /></button>
                     {!!session.user.image
                         ? <Image onClick={() => {
                             setPopupShow(old=>!old)

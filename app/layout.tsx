@@ -43,8 +43,8 @@ export default function RootLayout({
   pageProps
 }: {
   children: React.ReactNode,
-    pageProps: {
-    session:Session
+  pageProps: {
+    session: Session
   }
 }) {
   return (
@@ -53,12 +53,12 @@ export default function RootLayout({
         <Head>
           <title>CoChat | Code & Collab</title>
         </Head>
-          <Providers>
-            <Loader />
-        <SessionProvider {...pageProps}>
+        <Providers>
+          <Loader />
+          <SessionProvider {...pageProps}>
             {children}
-        </SessionProvider>
-          </Providers>
+          </SessionProvider>
+        </Providers>
 
       </body>
     </html>
