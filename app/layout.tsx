@@ -1,5 +1,5 @@
 "use client";
-import Loader from '@/components/loader/loader.component'
+import Loader from '@/components/common/loader/loader.component'
 import './globals.css'
 import type { Metadata } from 'next'
 import Providers from '@/redux/Provider'

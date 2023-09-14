@@ -1,7 +1,7 @@
 "use client";
 import Chatbox from '@/components/chatbox/chatbox.component';
 import Editor from '@/components/editor/main.component';
-import Header from '@/components/header/header.component';
+import Header from '@/components/common/header/header.component';
 import Sidebar from '@/components/sidebar/page';
 import { GlobalState } from '@/redux/store'
 import React, { useState } from 'react'

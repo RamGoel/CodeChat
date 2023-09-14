@@ -4,7 +4,7 @@ import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 const Menu = () => {
   return (
-      <div className='bg-zinc-900 rounded-lg p-2 absolute top-20' style={{width:150, transition:'.5s'}} >
+      <div className='bg-zinc-900 rounded-lg p-2 absolute top-20 right-20' style={{width:150, transition:'.5s'}} >
           <div className='flex items-center justify-start rounded-lg hover:bg-zinc-800 cursor-pointer p-2'>
               <ElementPlus />
               <p className='ml-2'>New Room</p>

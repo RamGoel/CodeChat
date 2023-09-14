@@ -1,7 +1,7 @@
 import { GlobalState } from '@/redux/store'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import Loader from '../loader/loader.component'
+import Loader from '../common/loader/loader.component'
 import { messageProps } from './form.component'
 
 const ChatSection = () => {

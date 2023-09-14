@@ -7,20 +7,15 @@ import { signIn, useSession } from 'next-auth/react'
 import NameToPic from '../nameToPic/page';
 import Menu from './menu.component';
 import { useRouter } from 'next/navigation';
-import toast,{Toaster} from 'react-hot-toast'
-const SiteHeader = () => {
+import toast, { Toaster } from 'react-hot-toast';
+
+export type HeaderProps = {
+    pageName?: string;
+}
+const SiteHeader = ({pageName}:HeaderProps) => {
     const [isPopupShow, setPopupShow]=useState(false)
     const { data: session } = useSession()
     const router = useRouter()
-    
-    // useEffect(() => {
-    //     if (session?.user?.name) {
-    //         toast.success(`Logged in as ${session.user.name}`);
-    //     }
-    //     return () => {
-            
-    //     }
-    // },[session])
     
     return (
         <div className='p-4 bg-black text-white flex flex-row items-center justify-between'>
@@ -34,7 +29,12 @@ const SiteHeader = () => {
             </div>
             <div className='flex flex-row items-baseline  w-full md:w-1/5 justify-end'>
                 {(session && session.user) ? <div className='flex flex-row items-center justify-between'>
-                    <button onClick={()=>router.push('/dashboard')} className='text-white border-red-500 flex items-center justify-start rounded-lg px-4 font-medium text-black py-2'>Go to dashboard <ArrowRight2 size={20} /></button>
+                    {pageName === 'site' ? <button
+                        onClick={() => router.push('/dashboard')}
+                        className='text-white border-red-500 flex items-center justify-start rounded-lg px-4 font-medium text-black py-2'>
+                        Go to dashboard
+                        <ArrowRight2 size={20} />
+                    </button> :null}
                     {!!session.user.image
                         ? <Image onClick={() => {
                             setPopupShow(old=>!old)
