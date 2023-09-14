@@ -8,21 +8,21 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 
 const Dashboard = () => {
-    const session = useSession()
-    const router=useRouter()
+  const session = useSession()
+  const router = useRouter()
   useEffect(() => {
     if (!session || !session.data?.user) {
       router.push('/');
       return;
     }
-  },[router, session])
+  }, [router, session])
   return (
-      <div className='w-11/12 mx-auto'>
-          <SiteHeader />
-          <AdsBox />
-          <Recents />
-          <JoinRoom />
-    </div>
+    session.data?.user ? <div className='w-11/12 mx-auto'>
+      <SiteHeader />
+      <AdsBox />
+      <Recents />
+      <JoinRoom />
+    </div> : <></>
   )
 }
 

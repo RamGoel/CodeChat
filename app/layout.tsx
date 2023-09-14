@@ -7,6 +7,7 @@ import localFont from 'next/font/local'
 import { SessionProvider } from 'next-auth/react'
 import { Session } from 'next-auth'
 import Head from 'next/head';
+import { Toaster } from 'react-hot-toast';
 const gilroy = localFont({
   src: [
     {
@@ -54,6 +55,10 @@ export default function RootLayout({
           <title>CoChat | Code & Collab</title>
         </Head>
         <Providers>
+          <Toaster
+          position="top-center"
+          reverseOrder={false}
+          />
           <Loader />
           <SessionProvider {...pageProps}>
             {children}

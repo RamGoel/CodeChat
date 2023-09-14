@@ -7,13 +7,16 @@ import { signIn, useSession } from 'next-auth/react'
 import NameToPic from '../nameToPic/page';
 import Menu from './menu.component';
 import { useRouter } from 'next/navigation';
-
+import toast,{Toaster} from 'react-hot-toast'
 const SiteHeader = () => {
     const [isPopupShow, setPopupShow]=useState(false)
     const { data: session } = useSession()
-    const router=useRouter()
+    const router = useRouter()
+    
+    
     return (
         <div className='p-4 bg-black text-white flex flex-row items-center justify-between'>
+            <Toaster />
             <div className='md:flex md:items-baseline w-full md:w-2/5 md:justify-start'>
                 <h3 style={{
                     fontWeight: 700,
@@ -33,7 +36,10 @@ const SiteHeader = () => {
                         }} name={session.user.name || 'A'} />
                     }
                     {isPopupShow ? <Menu /> : false}
-                </div> : <button onClick={() => signIn()} className='flex flex-row items-center justify-between bg-zinc-900 p-2 px-3 rounded-lg'>
+                </div> : <button onClick={async () => {
+                        const result = await signIn()
+                        console.log(result)
+                }} className='flex flex-row items-center justify-between bg-zinc-900 p-2 px-3 rounded-lg'>
                     <Image src={require('@/public/google.png')} width={20} height={20} alt='google-icon' />
                     <p className='ml-2'>Sign in with Google</p>
                 </button>}
