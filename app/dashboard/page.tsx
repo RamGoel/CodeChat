@@ -10,16 +10,16 @@ import React, { useEffect } from 'react'
 const Dashboard = () => {
   const session = useSession()
   const router = useRouter()
-  useEffect(() => {
-    if (!session || !session.data?.user) {
-      router.push('/');
-      return;
-    }
-  }, [router, session])
+  // useEffect(() => {
+  //   if (!session || !session.data?.user) {
+  //     router.push('/');
+  //     return;
+  //   }
+  // }, [router, session])
   return (
     session.data?.user ? <div className='w-11/12 mx-auto'>
       <SiteHeader />
-      <AdsBox />
+      {/* <AdsBox /> */}
       <Recents />
       <JoinRoom />
     </div> : <></>

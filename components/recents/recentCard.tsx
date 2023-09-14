@@ -4,7 +4,7 @@ import moment from 'moment'
 import Image from 'next/image'
 const RecentCard = ({data}:{data:roomProps}) => {
   return (
-      <div className='text-white p-2 cursor-pointer border-gray-900 hover:scale-105 transition border-2 rounded-lg mr-2' style={{width:350}}>
+      <div className='text-white p-2 cursor-pointer border-gray-900 hover:scale-105 transition border-2 rounded-lg mr-2'>
           {/* {JSON.stringify(data)} */}
           <div className='flex items-center justify-between py-2'> 
           <h2 className='text-xl font-bold'>{data.name}</h2>

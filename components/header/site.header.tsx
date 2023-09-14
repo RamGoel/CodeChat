@@ -13,6 +13,14 @@ const SiteHeader = () => {
     const { data: session } = useSession()
     const router = useRouter()
     
+    // useEffect(() => {
+    //     if (session?.user?.name) {
+    //         toast.success(`Logged in as ${session.user.name}`);
+    //     }
+    //     return () => {
+            
+    //     }
+    // },[session])
     
     return (
         <div className='p-4 bg-black text-white flex flex-row items-center justify-between'>
@@ -36,9 +44,9 @@ const SiteHeader = () => {
                         }} name={session.user.name || 'A'} />
                     }
                     {isPopupShow ? <Menu /> : false}
-                </div> : <button onClick={async () => {
-                        const result = await signIn()
-                        console.log(result)
+                </div> : <button onClick={() => {
+                        signIn('google',{callbackUrl:'/dashboard'});
+                        
                 }} className='flex flex-row items-center justify-between bg-zinc-900 p-2 px-3 rounded-lg'>
                     <Image src={require('@/public/google.png')} width={20} height={20} alt='google-icon' />
                     <p className='ml-2'>Sign in with Google</p>
