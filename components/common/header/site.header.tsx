@@ -8,6 +8,7 @@ import NameToPic from '../nameToPic/page';
 import Menu from './menu.component';
 import { useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
+import MenuComponent from './menu.component';
 
 export type HeaderProps = {
     pageName?: string;
@@ -17,6 +18,7 @@ const SiteHeader = ({pageName}:HeaderProps) => {
     const { data: session } = useSession()
     const router = useRouter()
     
+
     return (
         <div className='p-4 bg-black text-white flex flex-row items-center justify-between'>
             <Toaster />
@@ -39,11 +41,14 @@ const SiteHeader = ({pageName}:HeaderProps) => {
                         ? <Image onClick={() => {
                             setPopupShow(old=>!old)
                         }} src={session?.user?.image} className='rounded-full ml-2 cursor-pointer' width={40} height={40} alt='profile-image' />
-                        : <NameToPic onClick={() => {
+                        : <div style={{
+                            width: '40px',
+                            height: '40px'
+                        }}><NameToPic onClick={() => {
                             setPopupShow(old=>!old)
-                        }} name={session.user.name || 'A'} />
+                        }} name={session.user.name || 'A'} /></div>
                     }
-                    {isPopupShow ? <Menu /> : false}
+                    {isPopupShow ? <MenuComponent /> : false}
                 </div> : <button onClick={() => {
                         signIn('google',{callbackUrl:'/dashboard'});
                         

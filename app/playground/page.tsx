@@ -6,13 +6,15 @@ import Sidebar from '@/components/sidebar/page';
 import { GlobalState } from '@/redux/store'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import SiteHeader from '@/components/common/header/site.header';
 
 const Playground = () => {
     const { inviteLink, userName, roomName, code, output } = useSelector((state: GlobalState) => state.auth)
     const [sidebar, setSidebar]=useState(false)
     return (
-      <div className='h-screen bg-black'>
-            <Header switchSidebar={()=>setSidebar(old=>!old)} />
+      <div className='h-screen bg-black w-11/12 mx-auto'>
+        {/* <Header switchSidebar={()=>setSidebar(old=>!old)} /> */}
+        <SiteHeader />
       <div className='flex sm:flex-col md:flex-row w-11/12 mx-auto bg-black'>
           <div style={{
             position: 'absolute',

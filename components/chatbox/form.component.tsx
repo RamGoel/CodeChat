@@ -1,8 +1,10 @@
 "use client";
+import { useSocket } from '@/redux/Provider';
 import { setMessages } from '@/redux/slices/chat.slice';
 import { GlobalState } from '@/redux/store';
 import { EmojiHappy, Send } from 'iconsax-react'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
 export type messageProps={
@@ -14,26 +16,33 @@ export type messageProps={
     timestamp:string
 }
 const Form = () => {
+    const socket=useSocket()
     const [message, setmessage] = useState('')
+    const roomName = useSelector((state: GlobalState) => state.auth.roomName)
     const messages = useSelector((state: GlobalState) => state.chat.messages)
     const dispatch = useDispatch()
     const handleSubmit = () => {
         if (!message) {
             return;
         }
-        const dt = new Date()
-        const newMessage: messageProps = {
-            user: {
-                name: "Shivam Gupta",
-                id: 201
-            },
-            message: message,
-            timestamp: dt.toTimeString()
-        }
-        dispatch(setMessages([...messages || [], newMessage]))
+        socket.emit('chat message', message,roomName);
         console.log(messages)
         setmessage('')
     }
+
+    useEffect(() => {
+        socket.on('chat message', (data) => {
+            const newArr = [...messages];
+            newArr.push(data)
+            dispatch(setMessages(newArr))
+        })
+        socket.on('user joined', (id) => {
+            toast.success(`${id} joined the chat`)
+            // const newArr = [...messages];
+            // newArr.push(data)
+            // dispatch(setMessages(newArr))
+        })
+    },[socket, dispatch,messages])
     return (
         <div className=' p-3'>
 

@@ -1,13 +1,18 @@
 import { useSocket } from '@/redux/Provider';
+import { setDetails } from '@/redux/slices/authSlice';
+import { useAppDispatch } from '@/services/hooks';
 import { Colors } from '@/utils/colors'
 import { ArrowRight2 } from 'iconsax-react'
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 
 const JoinRoom = () => {
-    const { data:session } =useSession()
+    const { data: session } = useSession()
+    const router=useRouter()
     const socket = useSocket()
+    const dispatch=useAppDispatch()
     const [roomId, setRoomId]=useState('')
     const connectToRoom = () => {
         if (String(roomId).length !== 12) {
@@ -15,11 +20,10 @@ const JoinRoom = () => {
             toast.error("12 digit ID required.")
             return;
         }
-        socket.emit("room:join", {
-            roomId,
-            name: session.user.name,
-            email: session.user.email
-        });
+       
+        socket.emit('join_room', roomId);
+        dispatch(setDetails({userName:session?.user?.name, roomName:roomId}))
+        router.push('/playground')
         setRoomId('')
     }
     return (

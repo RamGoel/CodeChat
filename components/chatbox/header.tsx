@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import Image from 'next/image'
 import { HambergerMenu } from 'iconsax-react'
 const Header = () => {
-    const { userName } = useSelector((state: GlobalState) => state.auth)
+    const { userName, roomName } = useSelector((state: GlobalState) => state.auth)
 
     return (
         <div>
@@ -19,7 +19,7 @@ const Header = () => {
                         style={{objectFit:'cover', height:40, width:40}}
                         className='rounded-full mx-2'
                     />
-                    <h2>{userName || "Anonymous User"}</h2>
+                    <h2>{roomName || "Anonymous Room"}</h2>
                 </div>
                 <div>
 

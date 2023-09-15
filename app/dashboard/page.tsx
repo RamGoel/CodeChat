@@ -17,12 +17,14 @@ const Dashboard = () => {
   //   }
   // }, [router, session])
   return (
-    session.data?.user ? <div className='w-11/12 mx-auto'>
+    // session.data?.user ?
+      <div className='w-11/12 mx-auto'>
       <SiteHeader />
       {/* <AdsBox /> */}
       <Recents />
       <JoinRoom />
-    </div> : <></>
+    </div> 
+    // : <></>
   )
 }
 
