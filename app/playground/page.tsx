@@ -25,7 +25,7 @@ const Playground = () => {
           }} className={`w-1/5`}>
             <Sidebar />
           </div>
-          <div className='md:w-1/3 sm:w-full '>
+          <div className='md:w-1/3 sm:w-full mr-2'>
           <Chatbox />
           </div>
           <div className='md:w-3/4 sm:w-full'>

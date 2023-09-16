@@ -2,7 +2,7 @@
 import { useSocket } from '@/redux/Provider';
 import { setMessages } from '@/redux/slices/chat.slice';
 import { GlobalState } from '@/redux/store';
-import { EmojiHappy, Send } from 'iconsax-react'
+import { EmojiHappy, Image, PictureFrame, Send } from 'iconsax-react'
 import { useSession } from 'next-auth/react';
 import React, { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
@@ -46,22 +46,33 @@ const Form = () => {
         socket.on('user left', (id) => {
             toast.success(`${id} leaved the chat`)
         })
-    },[socket, dispatch,messages])
+
+        
+    }, [socket, dispatch, messages])
+    
+    useEffect(() => {
+        return () => {
+            dispatch(setMessages([]))
+        }
+    },[])
     return (
         <div className=' p-3'>
 
-            <div className='flex flex-row items-center px-3 justify-between border-violet-500 border-2 rounded-xl w-11/12 mx-auto'>
+            <div className='flex flex-row items-center px-3 justify-between border-violet-500 border-2 rounded-xl'>
                 <div className='w-1/8'>
                     <EmojiHappy size={25} />
+                </div>
+                <div className='w-1/8'>
+                    <PictureFrame size={25} />
                 </div>
                 <div className='p-2 w-11/12'>
                     <input
                         value={message}
                         onChange={e => {
                             setmessage(e.target.value)
-                        }} className='focus-visible:border-0 outline-none' placeholder='Start typing a message...' />
+                        }} className='focus-visible:border-0 outline-none' placeholder='type a message...' />
                 </div>
-                <button className='w-1/8 bg-sky-300' disabled={message.length === 0} onClick={() => handleSubmit()}>
+                <button className='w-1/8' disabled={message.length === 0} onClick={() => handleSubmit()}>
                     <Send size={25} />
                 </button>
             </div>

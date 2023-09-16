@@ -3,10 +3,11 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 const Output = () => {
-    const output=useSelector((state:GlobalState)=>state.code.output)
+  const output = useSelector((state: GlobalState) => state.code.output)
+
   return (
     <div className='flex w-full items-center justify-center'>
-          <textarea value={output} contentEditable={false}  className='
+          <textarea style={{height:300, overflowY:'scroll'}} value={output} contentEditable={false}  className='
           w-11/12
           mx-auto
           bg-slate-900
