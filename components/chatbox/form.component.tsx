@@ -3,6 +3,7 @@ import { useSocket } from '@/redux/Provider';
 import { setMessages } from '@/redux/slices/chat.slice';
 import { GlobalState } from '@/redux/store';
 import { EmojiHappy, Send } from 'iconsax-react'
+import { useSession } from 'next-auth/react';
 import React, { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +17,7 @@ export type messageProps={
     timestamp:string
 }
 const Form = () => {
+    const {data:session}=useSession()
     const socket=useSocket()
     const [message, setmessage] = useState('')
     const roomName = useSelector((state: GlobalState) => state.auth.roomName)
@@ -25,7 +27,7 @@ const Form = () => {
         if (!message) {
             return;
         }
-        socket.emit('chat message', message,roomName);
+        socket.emit('chat message', message,session?.user?.name, roomName);
         console.log(messages)
         setmessage('')
     }

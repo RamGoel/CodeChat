@@ -21,7 +21,7 @@ const JoinRoom = () => {
             return;
         }
        
-        socket.emit('join_room', roomId);
+        socket.emit('join_room', roomId, session?.user?.name);
         dispatch(setDetails({userName:session?.user?.name, roomName:roomId}))
         router.push('/playground')
         setRoomId('')

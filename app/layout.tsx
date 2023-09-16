@@ -8,6 +8,7 @@ import { SessionProvider } from 'next-auth/react'
 import { Session } from 'next-auth'
 import Head from 'next/head';
 import { Toaster } from 'react-hot-toast';
+import NewRoomPopup from '@/components/newRoomPopup/newRoomPopup';
 const gilroy = localFont({
   src: [
     {
@@ -60,6 +61,7 @@ export default function RootLayout({
           reverseOrder={false}
           />
           <Loader />
+          <NewRoomPopup />
           <SessionProvider {...pageProps}>
             {children}
           </SessionProvider>
