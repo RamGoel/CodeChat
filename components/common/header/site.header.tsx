@@ -48,7 +48,7 @@ const SiteHeader = ({pageName}:HeaderProps) => {
                             setPopupShow(old=>!old)
                         }} name={session.user.name || 'A'} /></div>
                     }
-                    {isPopupShow ? <MenuComponent /> : false}
+                    {isPopupShow ? <MenuComponent closeMenu={()=>setPopupShow(false)} /> : false}
                 </div> : <button onClick={() => {
                         signIn('google',{callbackUrl:'/dashboard'});
                         

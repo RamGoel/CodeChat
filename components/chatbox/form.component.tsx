@@ -40,9 +40,11 @@ const Form = () => {
         })
         socket.on('user joined', (id) => {
             toast.success(`${id} joined the chat`)
-            // const newArr = [...messages];
-            // newArr.push(data)
-            // dispatch(setMessages(newArr))
+            
+        })
+
+        socket.on('user left', (id) => {
+            toast.success(`${id} leaved the chat`)
         })
     },[socket, dispatch,messages])
     return (
