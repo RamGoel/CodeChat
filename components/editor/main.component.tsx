@@ -41,7 +41,7 @@ const Main = () => {
         width: 50,
         position: 'absolute',
         bottom: 50,
-        right:50
+        left:50
       }} className="bg-violet-700 p-2 hover:scale-110 transition-all cursor-pointer flex items-center justify-center rounded-full">
         <Message2 color="white" size={30} />
       </div>

@@ -12,23 +12,22 @@ const ChatSection = () => {
   const { activeChat, messages } = useSelector(
     (state: GlobalState) => state.chat,
   );
-  if (messages === null) {
-    return <p className="text-center">No Chats available</p>;
-  }
+
   const socket = useSocket();
   return (
     <div>
       <div
-        style={{ height: "300px", overflowY: "scroll" }}
+        style={{ height: "75vh", overflowY: "scroll" }}
         className=" px-3 py-2"
       >
-        {messages.map((value: messageProps) => {
+        {!messages || messages?.length === 0
+          ? <p className="text-center">No Chats available</p>
+          : messages.map((value: messageProps) => {
           return (
             <div
               key={value.timestamp}
-              className={`my-2 ${
-                value.user === session?.user?.name ? "ml-auto" : "mr-auto"
-              }`}
+              className={`my-2 ${value.user === session?.user?.name ? "ml-auto" : "mr-auto"
+                }`}
               style={{
                 width: "fit-content",
                 maxWidth: 200,
@@ -47,11 +46,10 @@ const ChatSection = () => {
                 {value.text}
               </div>
               <div
-                className={`flex ${
-                  value.user === session?.user?.name
-                    ? "justify-end"
-                    : "justify-start"
-                } items-center`}
+                className={`flex ${value.user === session?.user?.name
+                  ? "justify-end"
+                  : "justify-start"
+                  } items-center`}
               >
                 <span
                   className={

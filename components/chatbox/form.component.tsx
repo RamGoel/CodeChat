@@ -55,20 +55,18 @@ const Form = () => {
   }, []);
   return (
     <div className="p-3">
-      <div className="flex flex-row items-center px-3 justify-between border-violet-700 border- rounded-xl">
+      <div className="flex flex-row items-center px-3 justify-between  bg-stone-200 border-violet-700 border- rounded-xl">
         <div className="w-1/8">
-          <EmojiHappy size={25} color={'#fff'} />
+          <EmojiHappy size={25} color={'#000'} />
         </div>
-        {/* <div className="w-1/8">
-          <PictureFrame size={25} color={'#fff'} />
-        </div> */}
+
         <div className="p-2 w-11/12">
           <input
             value={message}
             onChange={(e) => {
               setmessage(e.target.value);
             }}
-            className="focus-visible:border-0 text-white outline-none bg-stone-900 p-3 w-full rounded-lg"
+            className="focus-visible:border-0 text-black outline-none  bg-transparent p-3 w-full rounded-lg"
             placeholder="type a message..."
           />
         </div>
@@ -77,7 +75,7 @@ const Form = () => {
           disabled={message.length === 0}
           onClick={() => handleSubmit()}
         >
-          <Send size={25} color="#fff" />
+          <Send size={25} color="#000" />
         </button>
       </div>
     </div>

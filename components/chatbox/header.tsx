@@ -22,7 +22,7 @@ const Header = () => {
             style={{ objectFit: "cover", height: 40, width: 40 }}
             className="rounded-full mx-2"
           />
-          <h2 className="text-white">{roomName || "Anonymous Room"}</h2>
+          <h2 className="text-black">{roomName || "Anonymous Room"}</h2>
         </div>
         <div></div>
       </div>

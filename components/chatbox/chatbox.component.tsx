@@ -19,6 +19,7 @@ const Chatbox = ({ isEnabled }) => {
                 <div className=" w-full ">
                     <Header />
                     <ChatSection />
+                    <Form />
                 </div>
             </div>
         </div>
