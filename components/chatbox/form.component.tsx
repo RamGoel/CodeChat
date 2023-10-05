@@ -2,6 +2,7 @@
 import { useSocket } from "@/redux/Provider";
 import { setMessages } from "@/redux/slices/chat.slice";
 import { GlobalState } from "@/redux/store";
+import { Colors } from "@/utils/colors";
 import { EmojiHappy, Image, PictureFrame, Send } from "iconsax-react";
 import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useState } from "react";
@@ -53,21 +54,21 @@ const Form = () => {
     };
   }, []);
   return (
-    <div className=" p-3">
-      <div className="flex flex-row items-center px-3 justify-between border-violet-500 border-2 rounded-xl">
+    <div className="p-3">
+      <div className="flex flex-row items-center px-3 justify-between border-violet-700 border- rounded-xl">
         <div className="w-1/8">
-          <EmojiHappy size={25} />
+          <EmojiHappy size={25} color={'#fff'} />
         </div>
-        <div className="w-1/8">
-          <PictureFrame size={25} />
-        </div>
+        {/* <div className="w-1/8">
+          <PictureFrame size={25} color={'#fff'} />
+        </div> */}
         <div className="p-2 w-11/12">
           <input
             value={message}
             onChange={(e) => {
               setmessage(e.target.value);
             }}
-            className="focus-visible:border-0 outline-none"
+            className="focus-visible:border-0 text-white outline-none bg-stone-900 p-3 w-full rounded-lg"
             placeholder="type a message..."
           />
         </div>
@@ -76,7 +77,7 @@ const Form = () => {
           disabled={message.length === 0}
           onClick={() => handleSubmit()}
         >
-          <Send size={25} />
+          <Send size={25} color="#fff" />
         </button>
       </div>
     </div>

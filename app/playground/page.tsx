@@ -7,44 +7,31 @@ import { GlobalState } from "@/redux/store";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import SiteHeader from "@/components/common/header/site.header";
+import Form from "@/components/chatbox/form.component";
+import Main from "@/components/editor/main.component";
 
 const Playground = () => {
-  const { inviteLink, userName, roomName, code, output } = useSelector(
-    (state: GlobalState) => state.auth,
-  );
-  const activeTab = useSelector((state: GlobalState) => state.misc.activeTab);
-
-  const [sidebar, setSidebar] = useState(false);
-  return (
-    <div className="h-screen bg-black w-11/12 mx-auto">
-      {/* <Header switchSidebar={()=>setSidebar(old=>!old)} /> */}
-      <SiteHeader />
-      <div className="flex sm:flex-col md:flex-row w-11/12 mx-auto bg-black">
-        <div
-          style={{
-            position: "absolute",
-            top: 60,
-            left: sidebar ? 0 : -300,
-            backgroundColor: "black",
-            transition: "0.5s",
-          }}
-          className={`w-1/5`}
-        >
-          <Sidebar />
+    const { inviteLink, userName, roomName, code, output } = useSelector(
+        (state: GlobalState) => state.auth,
+    );
+    return (
+        <div className="w-11/12 mx-auto">
+           <Main />
         </div>
-        {activeTab === "Chat" ? (
-          <div className="md:w-1/3 sm:w-full mr-2">
-            <Chatbox />
-          </div>
-        ) : null}
-        {activeTab === "Code" ? (
-          <div className="md:w-3/4 sm:w-full">
-            <Editor />
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Playground;
+
+{/* <div
+    style={{
+        position: "absolute",
+        top: 60,
+        left: sidebar ? 0 : -300,
+        backgroundColor: "black",
+        transition: "0.5s",
+    }}
+    className={`w-1/5`}
+>
+    <Sidebar />
+</div> */}

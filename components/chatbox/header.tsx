@@ -10,7 +10,7 @@ const Header = () => {
 
   return (
     <div>
-      <div className="py-2 px-4 flex flex-row items-center justify-start">
+      <div className="py-1 flex flex-row items-center justify-start">
         <div style={{ all: "inherit" }}>
           <Image
             alt="Profile Image"
@@ -22,7 +22,7 @@ const Header = () => {
             style={{ objectFit: "cover", height: 40, width: 40 }}
             className="rounded-full mx-2"
           />
-          <h2>{roomName || "Anonymous Room"}</h2>
+          <h2 className="text-white">{roomName || "Anonymous Room"}</h2>
         </div>
         <div></div>
       </div>

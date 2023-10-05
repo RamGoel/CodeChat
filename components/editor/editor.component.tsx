@@ -1,30 +1,18 @@
-import React, { useState } from "react";
+import React from 'react'
+import Editor from '@monaco-editor/react'
+const InputEditor = ({ code, setCode, language, }) => {
+    return (
+        <div style={{ height: 500, backgroundColor: '#1e1e1e' }} className="py-4 flex w-full items-center rounded-2xl overflow-hidden justify-center">
+            <Editor
+                width={`100%`}
+                language={language || "javascript"}
+                value={code}
+                theme="vs-dark"
+                defaultValue="// some comment"
+                onChange={(code) => setCode(code)}
+            />
+        </div>
+    )
+}
 
-const Editor = () => {
-  const [code, setCode] = useState('print("Hello")');
-
-  return (
-    <div className="flex w-full items-center justify-center">
-      <textarea
-        contentEditable={true}
-        onChange={(e) => setCode(e.target.value)}
-        value={code}
-        style={{ height: 300, overflowY: "scroll" }}
-        className="
-          w-11/12
-          mx-auto
-          bg-slate-900
-          h-40
-          text-white
-          focus-visible:border-none outline-none
-          rounded-lg
-          resize-none
-          p-2
-          font-mono
-          "
-      ></textarea>
-    </div>
-  );
-};
-
-export default Editor;
+export default InputEditor
