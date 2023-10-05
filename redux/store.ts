@@ -1,13 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
-import authSlice, { authSliceProps } from "./slices/authSlice";
-import miscSlice, { miscSliceProps } from "./slices/miscSlice";
-import chatSlice, { chatSliceProps } from "./slices/chat.slice";
-import codeSlice, { codeSliceProps } from "./slices/code.slice";
+import { configureStore } from '@reduxjs/toolkit'
+import authSlice, { authSliceProps } from './slices/authSlice'
+import miscSlice, { miscSliceProps } from './slices/miscSlice'
+import chatSlice, { chatSliceProps } from './slices/chat.slice'
+import codeSlice, { codeSliceProps } from './slices/code.slice'
 
 export interface GlobalState {
-    auth: authSliceProps,
-    misc: miscSliceProps,
-    chat: chatSliceProps,
+    auth: authSliceProps
+    misc: miscSliceProps
+    chat: chatSliceProps
     code: codeSliceProps
 }
 export const store = configureStore({
@@ -15,8 +15,8 @@ export const store = configureStore({
         auth: authSlice,
         misc: miscSlice,
         chat: chatSlice,
-        code: codeSlice
-    }
+        code: codeSlice,
+    },
 })
 
 export type RootState = ReturnType<typeof store.getState>

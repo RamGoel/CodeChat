@@ -1,26 +1,26 @@
-import { messageProps } from '@/components/chatbox/form.component';
-import { createSlice } from '@reduxjs/toolkit';
+import { messageProps } from '@/components/chatbox/form.component'
+import { createSlice } from '@reduxjs/toolkit'
 
 export interface chatSliceProps {
-    messages: Array<messageProps>,
+    messages: Array<messageProps>
     activeChat: Object
 }
 
 const initialState: chatSliceProps = {
     messages: [],
-    activeChat: {}
+    activeChat: {},
 }
 const chatSlice = createSlice({
-    name: "chat",
+    name: 'chat',
     initialState: initialState,
     reducers: {
         changeActiveChat: (state, action) => {
-            state.activeChat = action.payload;
+            state.activeChat = action.payload
         },
         setMessages: (state, action) => {
-            state.messages = action.payload;
-        }
-    }
+            state.messages = action.payload
+        },
+    },
 })
 
 export const { changeActiveChat, setMessages } = chatSlice.actions

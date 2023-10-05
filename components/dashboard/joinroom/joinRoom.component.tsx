@@ -1,35 +1,37 @@
-import { useSocket } from '@/redux/Provider';
-import { setDetails } from '@/redux/slices/authSlice';
-import { useAppDispatch } from '@/services/hooks';
+import { useSocket } from '@/redux/Provider'
+import { setDetails } from '@/redux/slices/authSlice'
+import { useAppDispatch } from '@/services/hooks'
 import { Colors } from '@/utils/colors'
 import { ArrowRight2 } from 'iconsax-react'
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
-import toast from 'react-hot-toast';
+import toast from 'react-hot-toast'
 
 const JoinRoom = () => {
     const { data: session } = useSession()
-    const router=useRouter()
+    const router = useRouter()
     const socket = useSocket()
-    const dispatch=useAppDispatch()
-    const [roomId, setRoomId]=useState('')
+    const dispatch = useAppDispatch()
+    const [roomId, setRoomId] = useState('')
     const connectToRoom = () => {
         if (String(roomId).length !== 12) {
             setRoomId('')
-            toast.error("12 digit ID required.")
-            return;
+            toast.error('12 digit ID required.')
+            return
         }
-       
-        socket.emit('join_room', roomId, session?.user?.name);
-        dispatch(setDetails({userName:session?.user?.name, roomName:roomId}))
+
+        socket.emit('join_room', roomId, session?.user?.name)
+        dispatch(
+            setDetails({ userName: session?.user?.name, roomName: roomId })
+        )
         router.push('/playground')
         setRoomId('')
     }
     return (
-        <div className='px-4 mt-6'>
-            <h3 className='text-white text-xl'>Join a code room</h3>
-            <div className='mt-3 flex items-center justify-between md:w-1/4 sm:w-1/2'>
+        <div className="px-4 mt-6">
+            <h3 className="text-white text-xl">Join a code room</h3>
+            <div className="mt-3 flex items-center justify-between md:w-1/4 sm:w-1/2">
                 <input
                     maxLength={12}
                     value={roomId}
@@ -37,15 +39,22 @@ const JoinRoom = () => {
                         setRoomId(e.target.value)
                     }}
                     minLength={12}
-                    className='bg-zinc-800 p-3 text-white rounded-lg tracking-widest'
-                    placeholder='12-digit room id'
+                    className="bg-zinc-800 p-3 text-white rounded-lg tracking-widest"
+                    placeholder="12-digit room id"
                 />
-                <div onClick={()=>connectToRoom()} className='p-2 rounded-full hover:scale-110 transition-all' style={{ backgroundColor: Colors.primary, width: 40, height: 40 }}>
-                    <ArrowRight2 className='text-white' />
+                <div
+                    onClick={() => connectToRoom()}
+                    className="p-2 rounded-full hover:scale-110 transition-all"
+                    style={{
+                        backgroundColor: Colors.primary,
+                        width: 40,
+                        height: 40,
+                    }}
+                >
+                    <ArrowRight2 className="text-white" />
                 </div>
             </div>
         </div>
-
     )
 }
 

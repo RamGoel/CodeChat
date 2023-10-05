@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 
 const Editor = () => {
     const [code, setCode] = useState('print("Hello")')
-    
+
     return (
-        <div className='flex w-full items-center justify-center' >
+        <div className="flex w-full items-center justify-center">
             <textarea
                 contentEditable={true}
                 onChange={(e) => setCode(e.target.value)}
                 value={code}
-                style={{height:300, overflowY:'scroll'}}
-                className='
+                style={{ height: 300, overflowY: 'scroll' }}
+                className="
           w-11/12
           mx-auto
           bg-slate-900
@@ -21,7 +21,8 @@ const Editor = () => {
           resize-none
           p-2
           font-mono
-          '></textarea>
+          "
+            ></textarea>
         </div>
     )
 }

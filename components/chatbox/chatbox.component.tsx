@@ -7,17 +7,17 @@ import ChatSection from './chatSection.component'
 import Form from './form.component'
 
 const Chatbox = () => {
-  return (
-      <div className='p-2 bg-white rounded-xl'>
-          <div>
-              <div className=' w-full '>
-              <Header />
-          <ChatSection />
-          <Form />
-              </div>
-          </div>
-    </div>
-  )
+    return (
+        <div className="p-2 bg-white rounded-xl">
+            <div>
+                <div className=" w-full ">
+                    <Header />
+                    <ChatSection />
+                    <Form />
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default Chatbox
