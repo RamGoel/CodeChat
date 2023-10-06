@@ -1,19 +1,18 @@
 import { GlobalState } from "@/redux/store";
 import React from "react";
 import { useSelector } from "react-redux";
-import Loader from "../common/loader/loader.component";
 import { messageProps } from "./form.component";
-import { useSocket } from "@/redux/Provider";
 import { useSession } from "next-auth/react";
 import moment from "moment";
 
+
+
 const ChatSection = () => {
   const { data: session } = useSession();
-  const { activeChat, messages } = useSelector(
+  const { messages } = useSelector(
     (state: GlobalState) => state.chat,
   );
 
-  const socket = useSocket();
   return (
     <div>
       <div
@@ -26,7 +25,7 @@ const ChatSection = () => {
           return (
             <div
               key={value.timestamp}
-              className={`my-2 ${value.user === session?.user?.name ? "ml-auto" : "mr-auto"
+              className={`my-2 ${value?.user === session?.user?.name ? "ml-auto" : "mr-auto"
                 }`}
               style={{
                 width: "fit-content",

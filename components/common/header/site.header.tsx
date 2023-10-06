@@ -6,28 +6,27 @@ import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 import NameToPic from "../nameToPic/page";
 import Menu from "./menu.component";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import toast, { LoaderIcon, Toaster } from "react-hot-toast";
 import MenuComponent from "./menu.component";
-import { useSelector } from "react-redux";
-import { type GlobalState } from "@/redux/store";
-import { switchTab } from "@/redux/slices/miscSlice";
-import { useAppDispatch } from "@/services/hooks";
+
 
 export interface HeaderProps {
     pageName?: string;
-    isCompiling: boolean,
-    compileHandler: Function,
-    setLang: Function,
-    lang: String
+    isCompiling?: boolean,
+    compileHandler?: Function,
+    setLang?: Function,
+    lang?: String
 }
 const SiteHeader = ({ pageName, isCompiling, compileHandler, lang, setLang }: HeaderProps) => {
     const [isPopupShow, setPopupShow] = useState(false);
     const { data: session } = useSession();
     const router = useRouter();
+    const pathname=usePathname()
     const handleSignin = async (): Promise<any> => {
         return await signIn("google", { callbackUrl: "/dashboard" });
     };
+    console.log(router)
     return (
         <div className="p-3 text-white flex flex-row items-center justify-between">
             <Toaster />
@@ -43,10 +42,10 @@ const SiteHeader = ({ pageName, isCompiling, compileHandler, lang, setLang }: He
                 </h3>
                 <p className="ml-2">/built by @RamGoel</p>
             </div>
-            <div style={{ all: "inherit" }}>
+            {pathname === '/playground' ? <div style={{ all: "inherit" }}>
                 <button
                     onClick={() => compileHandler(lang)}
-                    style={{width:100, height:40}}
+                    style={{ width: 100, height: 40 }}
                     className="p-2 bg-violet-900 text-center rounded-lg px-3 text-white hover:scale-105 transition"
                 >
                     {!isCompiling ? (
@@ -54,7 +53,7 @@ const SiteHeader = ({ pageName, isCompiling, compileHandler, lang, setLang }: He
                     ) : <LoaderIcon className="mx-auto" />}
                 </button>
 
-                <select style={{width:100, height:40}} className="p-2 rounded-lg mx-2 bg-stone-900 px-3" onChange={(e) => setLang(e.target.value)}>
+                <select style={{ width: 100, height: 40 }} className="p-2 rounded-lg mx-2 bg-stone-900 px-3" onChange={(e) => setLang(e.target.value)}>
                     <option className="p-2 border-0" value={"python3"} selected>
                         Python
                     </option>
@@ -63,7 +62,7 @@ const SiteHeader = ({ pageName, isCompiling, compileHandler, lang, setLang }: He
                     <option className="p-2 border-0" value={"cpp"}>C++</option>
                     <option className="p-2 border-0" value={"java"}>Java</option>
                 </select>
-            </div>
+            </div> : null}
             <div className="flex flex-row items-baseline  w-full md:w-1/5 justify-end">
                 {!!session && session?.user ? (
                     <div className="flex flex-row items-center justify-between">
@@ -104,7 +103,7 @@ const SiteHeader = ({ pageName, isCompiling, compileHandler, lang, setLang }: He
                                 />
                             </div>
                         )}
-                        {isPopupShow ? (
+                        {isPopupShow && pathname!=='/playground' ? (
                             <MenuComponent
                                 closeMenu={() => {
                                     setPopupShow(false);

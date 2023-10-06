@@ -2,7 +2,6 @@
 import { useSocket } from "@/redux/Provider";
 import { setMessages } from "@/redux/slices/chat.slice";
 import { GlobalState } from "@/redux/store";
-import { Colors } from "@/utils/colors";
 import { EmojiHappy, Image, PictureFrame, Send } from "iconsax-react";
 import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useState } from "react";
@@ -10,11 +9,8 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 
 export type messageProps = {
-  user: {
-    name: string;
-    id: number;
-  };
-  message: string;
+  user: string;
+  text: string;
   timestamp: string;
 };
 const Form = () => {
@@ -63,6 +59,11 @@ const Form = () => {
         <div className="p-2 w-11/12">
           <input
             value={message}
+            onKeyDown={(event) => {
+              if (event.which === 13) {
+                handleSubmit()
+              }
+            }}
             onChange={(e) => {
               setmessage(e.target.value);
             }}

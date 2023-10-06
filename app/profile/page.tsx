@@ -22,7 +22,7 @@ const Profile = () => {
             />
           ) : (
             <div style={{ width: 100, height: 100 }}>
-              <NameToPic extraTWClass="text-4xl" name={session?.user?.name} />
+              <NameToPic extraTWClass="text-4xl" name={session?.user?.name || "User"} />
             </div>
           )}
         </div>

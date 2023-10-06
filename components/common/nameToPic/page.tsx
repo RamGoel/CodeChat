@@ -7,7 +7,7 @@ const NameToPic = ({
   extraTWClass,
 }: {
   name: string;
-  onClick: Function;
+  onClick?: Function;
   extraTWClass: string;
 }) => {
   const splittedName = name?.split(" ");
