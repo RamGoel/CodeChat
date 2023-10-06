@@ -1,86 +1,88 @@
-"use client";
-import { useSocket } from "@/redux/Provider";
-import { setMessages } from "@/redux/slices/chat.slice";
-import { GlobalState } from "@/redux/store";
-import { EmojiHappy, Image, PictureFrame, Send } from "iconsax-react";
-import { useSession } from "next-auth/react";
-import React, { useCallback, useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+'use client';
+import { useSocket } from '@/redux/Provider';
+import { setMessages } from '@/redux/slices/chat.slice';
+import { type GlobalState } from '@/redux/store';
+import { EmojiHappy, Send } from 'iconsax-react';
+import { useSession } from 'next-auth/react';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 
 export type messageProps = {
   user: string;
   text: string;
   timestamp: string;
 };
+
 const Form = () => {
-  const { data: session } = useSession();
-  const socket = useSocket();
-  const [message, setmessage] = useState("");
-  const roomName = useSelector((state: GlobalState) => state.auth.roomName);
-  const messages = useSelector((state: GlobalState) => state.chat.messages);
-  const dispatch = useDispatch();
-  const handleSubmit = () => {
-    if (!message) {
-      return;
-    }
-    socket.emit("chat message", message, session?.user?.name, roomName);
-    console.log(messages);
-    setmessage("");
-  };
+	const { data: session } = useSession();
+	const socket = useSocket();
+	const [message, setmessage] = useState('');
+	const roomName = useSelector((state: GlobalState) => state.auth.roomName);
+	const messages = useSelector((state: GlobalState) => state.chat.messages);
+	const dispatch = useDispatch();
+	const handleSubmit = () => {
+		if (!message) {
+			return;
+		}
 
-  useEffect(() => {
-    socket.on("chat message", (data) => {
-      const newArr = [...messages];
-      newArr.push(data);
-      dispatch(setMessages(newArr));
-    });
-    socket.on("user joined", (id) => {
-      toast.success(`${id} joined the chat`);
-    });
+		socket.emit('chat message', message, session?.user?.name, roomName);
+		console.log(messages);
+		setmessage('');
+	};
 
-    socket.on("user left", (id) => {
-      toast.success(`${id} leaved the chat`);
-    });
-  }, [socket, dispatch, messages]);
+	useEffect(() => {
+		if (socket) {
+			socket.on('chat message', (data: messageProps) => {
+				const newArr = [...messages];
+				newArr.push(data);
+				dispatch(setMessages(newArr));
+			});
+			socket.on('user joined', (id: string) => {
+				toast.success(`${id} joined the chat`);
 
-  useEffect(() => {
-    return () => {
-      dispatch(setMessages([]));
-    };
-  }, []);
-  return (
-    <div className="p-3">
-      <div className="flex flex-row items-center px-3 justify-between  bg-stone-200 border-violet-700 border- rounded-xl">
-        <div className="w-1/8">
-          <EmojiHappy size={25} color={'#000'} />
-        </div>
+			});
 
-        <div className="p-2 w-11/12">
-          <input
-            value={message}
-            onKeyDown={(event) => {
-              if (event.which === 13) {
-                handleSubmit()
-              }
-            }}
-            onChange={(e) => {
-              setmessage(e.target.value);
-            }}
-            className="focus-visible:border-0 text-black outline-none  bg-transparent p-3 w-full rounded-lg"
-            placeholder="type a message..."
-          />
-        </div>
-        <button
-          className="w-1/8"
-          disabled={message.length === 0}
-          onClick={() => handleSubmit()}
-        >
-          <Send size={25} color="#000" />
-        </button>
-      </div>
-    </div>
-  );
+			socket.on('user left', (id: string) => {
+				toast.success(`${id} leaved the chat`);
+			});
+		}
+	}, [socket, dispatch, messages]);
+
+	return (
+		<div className="p-3">
+			<div className="flex flex-row items-center px-3 justify-between  bg-stone-200 border-violet-700 border- rounded-xl">
+				<div className="w-1/8">
+					<EmojiHappy size={25} color={'#000'} />
+				</div>
+
+				<div className="p-2 w-11/12">
+					<input
+						value={message}
+						onKeyDown={(event) => {
+							if (event.which === 13) {
+								handleSubmit();
+							}
+						}}
+						onChange={(e) => {
+							setmessage(e.target.value);
+						}}
+						className="focus-visible:border-0 text-black outline-none  bg-transparent p-3 w-full rounded-lg"
+						placeholder="type a message..."
+					/>
+				</div>
+				<button
+					className="w-1/8"
+					disabled={message.length === 0}
+					onClick={() => {
+						handleSubmit();
+					}}
+				>
+					<Send size={25} color="#000" />
+				</button>
+			</div>
+		</div>
+	);
 };
 
 export default Form;
