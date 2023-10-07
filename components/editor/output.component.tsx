@@ -1,25 +1,31 @@
-import { GlobalState } from '@/redux/store'
-import React from 'react'
-import { useSelector } from 'react-redux'
+import { GlobalState } from '@/redux/store';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 const Output = () => {
-    const output=useSelector((state:GlobalState)=>state.code.output)
-  return (
-    <div className='flex w-full items-center justify-center'>
-          <textarea value={output} contentEditable={false}  className='
+	const output = useSelector((state: GlobalState) => state.code.output);
+
+	return (
+		<div className="flex w-full items-center justify-center">
+			<textarea
+				style={{ height: 500, overflowY: 'scroll' }}
+				value={output}
+				contentEditable={false}
+				className="
           w-11/12
           mx-auto
-          bg-slate-900
+          bg-neutral-950
           h-40
           text-white
           focus-visible:border-none outline-none
           rounded-lg
           resize-none
-          p-2
+          p-5
           font-mono
-          '></textarea>
-    </div>
-  )
-}
+          "
+			></textarea>
+		</div>
+	);
+};
 
-export default Output
+export default Output;

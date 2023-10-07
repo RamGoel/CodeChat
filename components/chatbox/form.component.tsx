@@ -1,59 +1,88 @@
-"use client";
+'use client';
+import { useSocket } from '@/redux/Provider';
 import { setMessages } from '@/redux/slices/chat.slice';
-import { GlobalState } from '@/redux/store';
-import { EmojiHappy, Send } from 'iconsax-react'
-import React, { useCallback, useState } from 'react'
+import { type GlobalState } from '@/redux/store';
+import { EmojiHappy, Send } from 'iconsax-react';
+import { useSession } from 'next-auth/react';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
-export type messageProps={
-    user: {
-        name: string,
-        id:number
-    },
-    message: string,
-    timestamp:string
-}
+export type messageProps = {
+  user: string;
+  text: string;
+  timestamp: string;
+};
+
 const Form = () => {
-    const [message, setmessage] = useState('')
-    const messages = useSelector((state: GlobalState) => state.chat.messages)
-    const dispatch = useDispatch()
-    const handleSubmit = () => {
-        if (!message) {
-            return;
-        }
-        const dt = new Date()
-        const newMessage: messageProps = {
-            user: {
-                name: "Shivam Gupta",
-                id: 201
-            },
-            message: message,
-            timestamp: dt.toTimeString()
-        }
-        dispatch(setMessages([...messages || [], newMessage]))
-        console.log(messages)
-        setmessage('')
-    }
-    return (
-        <div className=' p-3'>
+	const { data: session } = useSession();
+	const socket = useSocket();
+	const [message, setmessage] = useState('');
+	const roomName = useSelector((state: GlobalState) => state.auth.roomName);
+	const messages = useSelector((state: GlobalState) => state.chat.messages);
+	const dispatch = useDispatch();
+	const handleSubmit = () => {
+		if (!message) {
+			return;
+		}
 
-            <div className='flex flex-row items-center px-3 justify-between border-violet-500 border-2 rounded-xl w-11/12 mx-auto'>
-                <div className='w-1/8'>
-                    <EmojiHappy size={25} />
-                </div>
-                <div className='p-2 w-11/12'>
-                    <input
-                        value={message}
-                        onChange={e => {
-                            setmessage(e.target.value)
-                        }} className='focus-visible:border-0 outline-none' placeholder='Start typing a message...' />
-                </div>
-                <button className='w-1/8 bg-sky-300' disabled={message.length === 0} onClick={() => handleSubmit()}>
-                    <Send size={25} />
-                </button>
-            </div>
-        </div>
-    )
-}
+		socket.emit('chat message', message, session?.user?.name, roomName);
+		console.log(messages);
+		setmessage('');
+	};
 
-export default Form
+	useEffect(() => {
+		if (socket) {
+			socket.on('chat message', (data: messageProps) => {
+				const newArr = [...messages];
+				newArr.push(data);
+				dispatch(setMessages(newArr));
+			});
+			socket.on('user joined', (id: string) => {
+				toast.success(`${id} joined the chat`);
+
+			});
+
+			socket.on('user left', (id: string) => {
+				toast.success(`${id} leaved the chat`);
+			});
+		}
+	}, [socket, dispatch, messages]);
+
+	return (
+		<div className="p-3">
+			<div className="flex flex-row items-center px-3 justify-between  bg-stone-200 border-violet-700 border- rounded-xl">
+				<div className="w-1/8">
+					<EmojiHappy size={25} color={'#000'} />
+				</div>
+
+				<div className="p-2 w-11/12">
+					<input
+						value={message}
+						onKeyDown={(event) => {
+							if (event.which === 13) {
+								handleSubmit();
+							}
+						}}
+						onChange={(e) => {
+							setmessage(e.target.value);
+						}}
+						className="focus-visible:border-0 text-black outline-none  bg-transparent p-3 w-full rounded-lg"
+						placeholder="type a message..."
+					/>
+				</div>
+				<button
+					className="w-1/8"
+					disabled={message.length === 0}
+					onClick={() => {
+						handleSubmit();
+					}}
+				>
+					<Send size={25} color="#000" />
+				</button>
+			</div>
+		</div>
+	);
+};
+
+export default Form;
