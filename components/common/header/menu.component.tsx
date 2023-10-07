@@ -4,7 +4,7 @@ import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useAppDispatch } from '@/services/hooks';
 import { enablePopup } from '@/redux/slices/miscSlice';
-const MenuComponent = ({ closeMenu }: { closeMenu: never }) => {
+const MenuComponent = ({ closeMenu }: { closeMenu: Function }) => {
 	const dispatch = useAppDispatch();
 	return (
 		<div

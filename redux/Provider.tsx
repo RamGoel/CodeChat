@@ -7,26 +7,33 @@ import { io, Socket } from 'socket.io-client';
 
 const SocketContext = createContext(null);
 interface ServerToClientEvents {
-	noArg: () => void;
-	basicEmit: (a: number, b: string, c: Buffer) => void;
-	withAck: (d: string, callback: (e: number) => void) => void;
+	"user_joined": any,
+	"welcome_user": any,
+	'chat message': any,
+	'user joined': any,
+	'user left': any,
+	'code executed':any
 }
 
 interface ClientToServerEvents {
-	hello: () => void;
+	"chat message": any,
+	'join_room': any,
+	'code exec':any
 }
 
 
 
 export const useSocket = () => {
+	//@ts-ignore
 	const socket :Socket<ServerToClientEvents, ClientToServerEvents> = useContext(SocketContext);
 	return socket;
 };
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-	const socket = useMemo(() => io('localhost:8000'), []);
+	const socket1 = useMemo(() => io('localhost:8000'), []);
 	return (
-		<SocketContext.Provider value={socket}>
+		// @ts-ignore
+		<SocketContext.Provider value={socket1}>
 			<Provider store={store}>{children}</Provider>
 		</SocketContext.Provider>
 	);

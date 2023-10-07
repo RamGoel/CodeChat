@@ -12,7 +12,7 @@ import Chatbox from '../chatbox/chatbox.component';
 const Main = () => {
 	const [code, setCode] = useState('print("Hello")');
 	const [isCompiling, setCompiling] = useState(false);
-	const [lang, setLang] = useState('python3');
+	const [lang, setLang] = useState<string>('python3');
 	const [isEnabled, setEnabled] = useState(false);
 	const socket = useSocket();
 	const dispatch = useAppDispatch();
@@ -23,11 +23,11 @@ const Main = () => {
 	};
 
 	useEffect(() => {
-		socket?.on('code executed', (data) => {
+		socket?.on('code executed', (data:any) => {
 			dispatch(setOutput(data));
 			setCompiling(false);
 		});
-	}, [socket]);
+	}, [dispatch, socket]);
 	return (
 		<div
 			className="rounded-lg overflow-hidden py-2 w-full"

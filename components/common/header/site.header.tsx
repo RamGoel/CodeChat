@@ -12,8 +12,8 @@ import MenuComponent from './menu.component';
 export interface HeaderProps {
   pageName?: string;
   isCompiling?: boolean;
-  compileHandler?: never;
-  setLang?: never;
+  compileHandler?: any;
+  setLang?: any;
   lang?: string;
 }
 const SiteHeader = ({
@@ -27,8 +27,8 @@ const SiteHeader = ({
 	const { data: session } = useSession();
 	const router = useRouter();
 	const pathname = usePathname();
-	const handleSignin = async (): Promise<never> => {
-		return await signIn('google', { callbackUrl: '/dashboard' });
+	const handleSignin =() => {
+		signIn('google', { callbackUrl: '/dashboard' });
 	};
 	console.log(router);
 	return (
@@ -90,7 +90,7 @@ const SiteHeader = ({
 								onClick={() => {
 									router.push('/dashboard');
 								}}
-								className="text-white border-red-500 flex items-center justify-start rounded-lg px-4 font-medium text-black py-2"
+								className="text-white border-red-500 flex items-center justify-start rounded-lg px-4 font-medium py-2"
 							>
                 Go to dashboard
 								<ArrowRight2 size={20} />
@@ -114,7 +114,8 @@ const SiteHeader = ({
 									height: '40px',
 								}}
 							>
-								<NameToPic
+									<NameToPic
+										extraTWClass=''
 									onClick={() => {
 										setPopupShow((old) => !old);
 									}}

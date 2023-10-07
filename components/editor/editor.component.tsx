@@ -6,7 +6,7 @@ const InputEditor = ({
 	language,
 }: {
   code: string;
-  setCode: never;
+  setCode: any;
   language: string;
 }) => {
 	return (
