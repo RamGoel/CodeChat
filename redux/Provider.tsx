@@ -18,7 +18,8 @@ interface ServerToClientEvents {
 interface ClientToServerEvents {
 	"chat message": any,
 	'join_room': any,
-	'code exec':any
+	'code exec': any,
+	'create_room':any
 }
 
 
