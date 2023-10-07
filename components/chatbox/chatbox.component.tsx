@@ -7,15 +7,14 @@ import { useSelector } from 'react-redux';
 import { type GlobalState } from '@/redux/store';
 import { useAppDispatch } from '@/services/hooks';
 import { setMessages } from '@/redux/slices/chat.slice';
-import {SocketType} from 'dgram';
 
 const Chatbox = ({ isEnabled }: { isEnabled: boolean }): React.JSX.Element => {
-	const socket:SocketType = useSocket();
+	const socket = useSocket();
 	const messages = useSelector((state: GlobalState) => state.chat.messages);
 	const dispatch = useAppDispatch();
 	useEffect(() => {
 		if (socket !== null) {
-			socket.on('user_joined', (email: string) => {
+			socket.on("user_joined", (email: string) => {
 				console.log(email, 'user joined');
 
 				const oldMessages = [...messages];
