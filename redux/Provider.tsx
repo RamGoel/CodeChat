@@ -3,12 +3,23 @@
 import React, { createContext, useContext, useMemo } from 'react';
 import { store } from './store';
 import { Provider } from 'react-redux';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
 const SocketContext = createContext(null);
+interface ServerToClientEvents {
+	noArg: () => void;
+	basicEmit: (a: number, b: string, c: Buffer) => void;
+	withAck: (d: string, callback: (e: number) => void) => void;
+}
+
+interface ClientToServerEvents {
+	hello: () => void;
+}
+
+
 
 export const useSocket = () => {
-	const socket = useContext(SocketContext);
+	const socket :Socket<ServerToClientEvents, ClientToServerEvents> = useContext(SocketContext);
 	return socket;
 };
 

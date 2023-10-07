@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface chatSliceProps {
   messages: messageProps[];
-  activeChat: Object;
+  activeChat: object;
 }
 
 const initialState: chatSliceProps = {

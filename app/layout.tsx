@@ -1,6 +1,7 @@
 'use client';
 import Loader from '@/components/common/loader/loader.component';
 import './globals.css';
+import React from 'react';
 import Providers from '@/redux/Provider';
 import localFont from 'next/font/local';
 import { SessionProvider } from 'next-auth/react';

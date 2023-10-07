@@ -3,6 +3,7 @@ import SiteFooter from '@/components/common/footer/site.footer';
 import SiteHeader from '@/components/common/header/site.header';
 import { Colors } from '@/utils/colors';
 import Image from 'next/image';
+import React from 'react';
 
 export default function Home() {
 	return (
