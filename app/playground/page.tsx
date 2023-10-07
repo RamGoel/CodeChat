@@ -9,12 +9,11 @@ const Playground = () => {
 	const { data: session } = useSession();
 
 	if(!session?.user){
-		router.push('/');
+		router?.push('/');
 	}
 
 	return (
 		<div className="w-11/12 mx-auto">
-
 			<Main />
 		</div>
 	);
