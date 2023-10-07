@@ -26,7 +26,6 @@ const Chatbox = ({ isEnabled }: { isEnabled: boolean }): React.JSX.Element => {
 				});
 				dispatch(setMessages(oldMessages));
 			});
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 			socket?.on('welcome_user', (email: string) => {
 				const oldMessages = [...messages];
 				oldMessages.push({
@@ -38,7 +37,7 @@ const Chatbox = ({ isEnabled }: { isEnabled: boolean }): React.JSX.Element => {
 				dispatch(setMessages(oldMessages));
 			});
 		}
-	}, [socket]);
+	}, [dispatch, messages, socket]);
 	return (
 		<div
 			style={{
