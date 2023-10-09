@@ -31,7 +31,8 @@ export const useSocket = () => {
 };
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-	const socket1 = useMemo(() => io('localhost:8000'), []);
+	// @ts-ignore
+	const socket1 = useMemo(() => io(process.env.NEXT_PUBLIC_SERVER_URL), []);
 	return (
 		// @ts-ignore
 		<SocketContext.Provider value={socket1}>
