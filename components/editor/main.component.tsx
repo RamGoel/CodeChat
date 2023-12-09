@@ -8,6 +8,9 @@ import SiteHeader from '../common/header/site.header';
 import { Message2 } from 'iconsax-react';
 
 import Chatbox from '../chatbox/chatbox.component';
+import { useSession } from 'next-auth/react';
+import { useSelector } from 'react-redux';
+import { GlobalState } from '@/redux/store';
 
 const Main = () => {
 	const [code, setCode] = useState('print("Hello")');
@@ -16,6 +19,8 @@ const Main = () => {
 	const [isEnabled, setEnabled] = useState(false);
 	const socket = useSocket();
 	const dispatch = useAppDispatch();
+	const { data: session } = useSession();
+	const roomName = useSelector((state: GlobalState) => state.auth.roomName);
 
 	const executeCode = (language: string) => {
 		socket?.emit('code exec', { code, language });
@@ -36,6 +41,14 @@ const Main = () => {
 			<SiteHeader
 				lang={lang}
 				setLang={setLang}
+				sendCodeToChat={() => {
+						if (!code) {
+							return;
+						}
+
+					socket.emit('chat message', code, session?.user?.name, roomName);
+
+				}}
 				isCompiling={isCompiling}
 				compileHandler={executeCode}
 			/>
