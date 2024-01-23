@@ -9,7 +9,6 @@ import {usePathname, useRouter} from 'next/navigation';
 import {LoaderIcon} from 'react-hot-toast';
 import {Send2} from 'iconsax-react';
 import MenuComponent from './menu.component';
-import {useSocket} from '@/redux/Provider';
 
 export interface HeaderProps {
   pageName?: string;
@@ -17,7 +16,7 @@ export interface HeaderProps {
   compileHandler?: any;
   setLang?: any;
   lang?: string;
-  sendCodeToChat: Function;
+  sendCodeToChat?: Function;
 }
 const SiteHeader = ({
   pageName,
@@ -52,7 +51,11 @@ const SiteHeader = ({
       {pathname === '/playground' ? (
         <div style={{all: 'inherit'}}>
           <button
-            onClick={sendCodeToChat}
+            onClick={() => {
+              if (sendCodeToChat) {
+                sendCodeToChat()
+              }
+            }}
             title="Share code as message"
             className="p-2 bg-violet-900 text-center rounded-lg px-3 mx-2 text-white hover:scale-105 transition">
             <Send2 />
