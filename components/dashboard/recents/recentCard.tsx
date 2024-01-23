@@ -7,7 +7,7 @@ const RecentCard = ({data}: {data: roomProps}) => {
       {/* {JSON.stringify(data)} */}
       <div className="flex items-center justify-between py-2">
         <h2 className="text-xl font-bold">{data.name}</h2>
-        <p>{moment(data.createdAt).format('HH:MM')}</p>
+        <p>{moment(data.createdAt).fromNow()}</p>
       </div>
       {/* <Image src={data.preview} style={{objectFit:'cover', height:160, width:350, borderRadius:10}} alt='room-preview my-2 rounded-xl' width={350} height={160} /> */}
       <p className="text-zinc-600 my-2">{data.totalMembers} members</p>

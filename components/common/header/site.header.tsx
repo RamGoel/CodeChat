@@ -31,7 +31,7 @@ const SiteHeader = ({
   const router = useRouter();
   const pathname = usePathname();
   const handleSignin = () => {
-    signIn('google', {callbackUrl: '/dashboard'});
+    signIn('github', {callbackUrl: '/authorize'});
   };
   console.log(router);
 
@@ -145,14 +145,14 @@ const SiteHeader = ({
         ) : (
           <button
             onClick={handleSignin}
-            className="flex flex-row items-center justify-between bg-zinc-900 p-2 px-3 rounded-lg">
+            className="flex flex-row items-center justify-between bg-white p-2 px-3 rounded-lg">
             <Image
-              src={require('@/public/google.png')}
+              src={require('@/public/github.png')}
               width={20}
               height={20}
               alt="google-icon"
             />
-            <p className="ml-2">Sign in with Google</p>
+            <p className="ml-2 text-black">Sign in with Google</p>
           </button>
         )}
       </div>

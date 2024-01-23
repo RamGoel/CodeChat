@@ -56,7 +56,7 @@ const ChatSection = () => {
                       : 'mr-2 mt-1'
                   }
                   style={{fontSize: 10}}>
-                  {moment(value.timestamp).format('HH:MM')}
+                  {moment(value.timestamp).format('hh:mm')}
                 </span>
               </div>
             </div>
