@@ -1,12 +1,13 @@
 'use client';
-import {useSocket} from '@/redux/Provider';
-import {setMessages} from '@/redux/slices/chat.slice';
-import {type GlobalState} from '@/redux/store';
-import {EmojiHappy, Send} from 'iconsax-react';
-import {useSession} from 'next-auth/react';
-import React, {useEffect, useState} from 'react';
+import { useSocket } from '@/redux/Provider';
+import { setMessages } from '@/redux/slices/chat.slice';
+import { type GlobalState } from '@/redux/store';
+import { EmojiHappy, EmojiNormal, Send } from 'iconsax-react';
+import { useSession } from 'next-auth/react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import EmojiPicker from 'emoji-picker-react';
 
 export type messageProps = {
   user: string;
@@ -15,9 +16,10 @@ export type messageProps = {
 };
 
 const Form = () => {
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const socket = useSocket();
   const [message, setmessage] = useState('');
+  const [isEmojiOpen, setEmojiOpen] = useState(false);
   const roomName = useSelector((state: GlobalState) => state.auth.roomName);
   const messages = useSelector((state: GlobalState) => state.chat.messages);
   const dispatch = useDispatch();
@@ -50,9 +52,19 @@ const Form = () => {
 
   return (
     <div className="p-3">
+      {
+        isEmojiOpen ? <EmojiPicker className='transition-all' style={{
+          position: 'absolute',
+          bottom: '100px',
+        }}
+          onEmojiClick={(emoji) => {
+            setmessage(message + emoji.emoji)
+          }}
+        />:null
+      }
       <div className="flex flex-row items-center px-3 justify-between  bg-stone-200 border-violet-700 border- rounded-xl">
         <div className="w-1/8">
-          <EmojiHappy size={25} color={'#000'} />
+          <EmojiNormal className='hover:bg-gray-300 p-2 rounded-full' onClick={()=>setEmojiOpen(old=>!old)} size={38} color={'#000'} />
         </div>
 
         <div className="p-2 w-11/12">
@@ -75,6 +87,7 @@ const Form = () => {
           disabled={message.length === 0}
           onClick={() => {
             handleSubmit();
+            setEmojiOpen(false);
           }}>
           <Send size={25} color="#000" />
         </button>

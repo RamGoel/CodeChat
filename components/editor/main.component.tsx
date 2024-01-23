@@ -11,6 +11,7 @@ import Chatbox from '../chatbox/chatbox.component';
 import {useSession} from 'next-auth/react';
 import {useSelector} from 'react-redux';
 import {GlobalState} from '@/redux/store';
+import { toast } from 'react-hot-toast';
 
 const Main = () => {
   const [code, setCode] = useState('print("Hello")');
@@ -46,6 +47,7 @@ const Main = () => {
           }
 
           socket.emit('chat message', code, session?.user?.name, roomName);
+          toast.success('Sent code to message!')
         }}
         isCompiling={isCompiling}
         compileHandler={executeCode}
