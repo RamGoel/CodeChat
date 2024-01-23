@@ -1,17 +1,17 @@
-import { GlobalState } from '@/redux/store';
+import {GlobalState} from '@/redux/store';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const Output = () => {
-	const output = useSelector((state: GlobalState) => state.code.output);
+  const output = useSelector((state: GlobalState) => state.code.output);
 
-	return (
-		<div className="flex w-full items-center justify-center">
-			<textarea
-				style={{ height: 500, overflowY: 'scroll' }}
-				value={output}
-				contentEditable={false}
-				className="
+  return (
+    <div className="flex w-full items-center justify-center">
+      <textarea
+        style={{height: 500, overflowY: 'scroll'}}
+        value={output}
+        contentEditable={false}
+        className="
           w-11/12
           mx-auto
           bg-neutral-950
@@ -22,10 +22,9 @@ const Output = () => {
           resize-none
           p-5
           font-mono
-          "
-			></textarea>
-		</div>
-	);
+          "></textarea>
+    </div>
+  );
 };
 
 export default Output;

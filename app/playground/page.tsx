@@ -5,12 +5,11 @@ import {useSession} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
 
 const Playground = () => {
-
-	return (
-		<div className="w-11/12 mx-auto">
-			<Main />
-		</div>
-	);
+  return (
+    <div className="w-11/12 mx-auto">
+      <Main />
+    </div>
+  );
 };
 
 export default Playground;

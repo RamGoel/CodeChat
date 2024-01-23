@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 export interface authSliceProps {
   userName: string | null;
@@ -9,27 +9,27 @@ export interface authSliceProps {
 }
 
 const initialState: authSliceProps = {
-	userName: null,
-	roomName: null,
-	code: 'print("Hello")',
-	output: 'Output comes here',
-	inviteLink: null,
+  userName: null,
+  roomName: null,
+  code: 'print("Hello")',
+  output: 'Output comes here',
+  inviteLink: null,
 };
 const authSlice = createSlice({
-	name: 'auth',
-	initialState,
-	reducers: {
-		setDetails: (state, action) => {
-			const { roomName, userName } = action.payload;
-			state.roomName = roomName;
-			state.userName = userName;
-		},
-		setInviteLink: (state, action) => {
-			state.inviteLink = action.payload;
-		},
-	},
+  name: 'auth',
+  initialState,
+  reducers: {
+    setDetails: (state, action) => {
+      const {roomName, userName} = action.payload;
+      state.roomName = roomName;
+      state.userName = userName;
+    },
+    setInviteLink: (state, action) => {
+      state.inviteLink = action.payload;
+    },
+  },
 });
 
-export const { setDetails, setInviteLink } = authSlice.actions;
+export const {setDetails, setInviteLink} = authSlice.actions;
 
 export default authSlice.reducer;

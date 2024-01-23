@@ -9,34 +9,33 @@ import {usePathname, useRouter} from 'next/navigation';
 import {LoaderIcon} from 'react-hot-toast';
 import {Send2} from 'iconsax-react';
 import MenuComponent from './menu.component';
-import { useSocket } from '@/redux/Provider';
+import {useSocket} from '@/redux/Provider';
 
 export interface HeaderProps {
   pageName?: string;
   isCompiling?: boolean;
   compileHandler?: any;
   setLang?: any;
-	lang?: string;
-	sendCodeToChat:Function
+  lang?: string;
+  sendCodeToChat: Function;
 }
 const SiteHeader = ({
   pageName,
   isCompiling,
   compileHandler,
-	lang,
-	sendCodeToChat,
+  lang,
+  sendCodeToChat,
   setLang,
 }: HeaderProps) => {
   const [isPopupShow, setPopupShow] = useState(false);
-	const { data: session } = useSession();
+  const {data: session} = useSession();
   const router = useRouter();
   const pathname = usePathname();
   const handleSignin = () => {
     signIn('google', {callbackUrl: '/dashboard'});
   };
-	console.log(router);
-	
-	
+  console.log(router);
+
   return (
     <div className="p-3 text-white flex flex-row items-center justify-between">
       <div className="md:flex md:items-baseline w-full md:w-2/5 md:justify-start">
@@ -52,8 +51,8 @@ const SiteHeader = ({
       </div>
       {pathname === '/playground' ? (
         <div style={{all: 'inherit'}}>
-				  <button
-					  onClick={sendCodeToChat}
+          <button
+            onClick={sendCodeToChat}
             title="Share code as message"
             className="p-2 bg-violet-900 text-center rounded-lg px-3 mx-2 text-white hover:scale-105 transition">
             <Send2 />
