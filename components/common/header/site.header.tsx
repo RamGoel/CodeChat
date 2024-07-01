@@ -1,13 +1,12 @@
 'use client';
 import {Colors} from '@/utils/colors';
-import {ArrowRight2} from 'iconsax-react';
-import React, {useState} from 'react';
-import Image from 'next/image';
+import {ArrowRight2, Send2} from 'iconsax-react';
 import {signIn, useSession} from 'next-auth/react';
-import NameToPic from '../nameToPic/page';
+import Image from 'next/image';
 import {usePathname, useRouter} from 'next/navigation';
+import {useState} from 'react';
 import {LoaderIcon} from 'react-hot-toast';
-import {Send2} from 'iconsax-react';
+import NameToPic from '../nameToPic/page';
 import MenuComponent from './menu.component';
 
 export interface HeaderProps {
@@ -53,7 +52,7 @@ const SiteHeader = ({
           <button
             onClick={() => {
               if (sendCodeToChat) {
-                sendCodeToChat()
+                sendCodeToChat();
               }
             }}
             title="Share code as message"
@@ -147,7 +146,7 @@ const SiteHeader = ({
             onClick={handleSignin}
             className="flex flex-row items-center justify-between bg-white p-2 px-3 rounded-lg">
             <Image
-              src={require('@/public/github.png')}
+              src={require('@/public/google.png')}
               width={20}
               height={20}
               alt="google-icon"

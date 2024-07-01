@@ -1,6 +1,5 @@
-import React from 'react';
-import Image from 'next/image';
 import {Colors} from '@/utils/colors';
+import Image from 'next/image';
 const SiteFooter = () => {
   const totalUser = 120;
   return (

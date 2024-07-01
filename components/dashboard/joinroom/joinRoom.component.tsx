@@ -5,7 +5,7 @@ import {Colors} from '@/utils/colors';
 import {ArrowRight2} from 'iconsax-react';
 import {useSession} from 'next-auth/react';
 import {useRouter} from 'next/navigation';
-import React, {useState} from 'react';
+import {useState} from 'react';
 import toast from 'react-hot-toast';
 
 const JoinRoom = () => {
@@ -16,7 +16,6 @@ const JoinRoom = () => {
   const [roomId, setRoomId] = useState('');
   const connectToRoom = () => {
     if (String(roomId).length !== 12) {
-      setRoomId('');
       toast.error('12 digit ID required.');
       return;
     }
